@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Концепция клуба · Бизнес Код</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Unbounded:wght@300;400;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #08090d;
+  --deep: #0e1118;
+  --surface: #141720;
+  --card: #1a1f2e;
+  --border: rgba(201,168,76,0.18);
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.28);
+  --gold-faint: rgba(201,168,76,0.07);
+  --sky: #5b9bd6;
+  --rose: #c96a76;
+  --sage: #7aad8f;
+  --violet: #9b7ed4;
+  --cream: #f0ece4;
+  --muted: #6b7280;
+  --text: #d8d2c8;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--ink); color:var(--text); font-family:'Jost',sans-serif; font-size:14px; line-height:1.7; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--deep); }
+::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
+
+/* ─── COVER ─── */
+.cover {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  position: relative; overflow: hidden;
+}
+.cover-bg {
+  position:absolute; inset:0;
+  background-image: linear-gradient(rgba(201,168,76,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(201,168,76,0.035) 1px,transparent 1px);
+  background-size: 60px 60px; pointer-events:none;
+}
+.cover-glow { position:absolute; top:-300px; left:-100px; width:800px; height:800px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 65%); pointer-events:none; }
+.cover-glow2 { position:absolute; bottom:-200px; right:300px; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(91,155,214,0.05) 0%,transparent 65%); pointer-events:none; }
+
+.cover-left {
+  padding: 80px 64px 80px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index:2;
+}
+.cover-eyebrow { font-family:'Unbounded',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:32px; display:flex; align-items:center; gap:14px; }
+.cover-eyebrow::before { content:'◆'; font-size:6px; }
+.cover-eyebrow::after { content:''; width:60px; height:1px; background:var(--gold-dim); }
+.cover-label { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:300; letter-spacing:0.2em; color:var(--muted); margin-bottom:14px; }
+.cover-title { font-family:'Cormorant Garamond',serif; font-size:clamp(64px,8vw,110px); font-weight:600; line-height:0.92; color:var(--cream); }
+.cover-title em { font-style:italic; font-weight:300; background:linear-gradient(135deg,var(--gold) 0%,var(--sky) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cover-tagline { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; font-style:italic; color:var(--muted); margin-top:24px; margin-bottom:48px; max-width:500px; line-height:1.6; }
+.cover-badge { display:inline-flex; align-items:center; gap:10px; background:rgba(201,168,76,0.08); border:1px solid var(--border); padding:10px 18px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+
+.cover-right {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  padding: 80px 48px;
+  display: flex; flex-direction:column; justify-content:center;
+  position: relative; z-index:2;
+}
+.cover-right-tag { font-family:'Unbounded',sans-serif; font-size:8px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:28px; }
+.cover-toc { list-style:none; }
+.toc-item { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(201,168,76,0.08); cursor:pointer; transition:color 0.2s; }
+.toc-item:last-child { border-bottom:none; }
+.toc-item:hover .toc-title { color:var(--gold); }
+.toc-n { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--gold-dim); line-height:1; min-width:36px; }
+.toc-body {}
+.toc-title { font-size:13px; font-weight:500; color:var(--cream); transition:color 0.2s; }
+.toc-sub { font-size:11px; color:var(--muted); }
+
+/* ─── LAYOUT ─── */
+.section { padding:80px; max-width:1200px; margin:0 auto; }
+.section-sm { padding:60px 80px; max-width:1200px; margin:0 auto; }
+.rule { border:none; border-top:1px solid var(--border); margin:0 80px; }
+
+.section-tag { font-family:'Unbounded',sans-serif; font-size:8px; font-weight:700; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+.section-tag::before { content:'◆'; font-size:6px; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,58px); font-weight:600; line-height:1.05; color:var(--cream); margin-bottom:12px; }
+.section-intro { font-size:14px; font-weight:300; color:var(--muted); max-width:600px; line-height:1.9; margin-bottom:56px; }
+
+/* ─── PROBLEM BLOCK ─── */
+.problem-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:40px; }
+.problem-cell { background:var(--surface); padding:36px 32px; }
+.problem-cell.highlight { background:rgba(201,168,76,0.05); }
+.pc-tag { font-size:9px; letter-spacing:0.35em; text-transform:uppercase; margin-bottom:12px; font-family:'Unbounded',sans-serif; }
+.pc-title { font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--cream); font-weight:600; margin-bottom:12px; line-height:1.2; }
+.pc-text { font-size:13px; color:var(--muted); font-weight:300; line-height:1.8; }
+.pc-text strong { color:var(--cream); font-weight:500; }
+
+/* ─── BIG QUOTE ─── */
+.big-quote {
+  border-left: 3px solid var(--gold);
+  padding: 28px 36px;
+  margin: 40px 0;
+  background: rgba(201,168,76,0.04);
+  position: relative;
+}
+.big-quote::before { content:'"'; font-family:'Cormorant Garamond',serif; font-size:120px; color:rgba(201,168,76,0.08); position:absolute; top:-20px; left:20px; line-height:1; }
+.bq-text { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.5vw,28px); color:var(--cream); font-weight:400; font-style:italic; line-height:1.5; position:relative; z-index:1; }
+.bq-source { font-size:12px; color:var(--muted); margin-top:12px; letter-spacing:0.1em; }
+
+/* ─── MISSION ─── */
+.mission-block {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--card) 100%);
+  border: 1px solid var(--border);
+  padding: 64px;
+  position: relative; overflow:hidden;
+  margin-bottom: 0;
+}
+.mission-block::before {
+  content: 'БК';
+  position:absolute; bottom:-40px; right:-20px;
+  font-family:'Unbounded',sans-serif; font-weight:700;
+  font-size:200px; color:rgba(201,168,76,0.03);
+  line-height:1; pointer-events:none;
+}
+.mission-tag { font-family:'Unbounded',sans-serif; font-size:8px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+.mission-text { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3vw,42px); color:var(--cream); font-weight:300; line-height:1.4; max-width:800px; margin-bottom:32px; }
+.mission-text strong { font-weight:600; }
+.mission-pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:40px; }
+.pillar { border-top:2px solid var(--border); padding-top:20px; }
+.pillar.p1 { border-color:var(--gold); }
+.pillar.p2 { border-color:var(--sky); }
+.pillar.p3 { border-color:var(--rose); }
+.pillar-num { font-family:'Cormorant Garamond',serif; font-size:36px; color:var(--gold-dim); line-height:1; margin-bottom:8px; }
+.pillar-title { font-size:13px; font-weight:500; color:var(--cream); margin-bottom:6px; }
+.pillar-text { font-size:12px; color:var(--muted); font-weight:300; line-height:1.7; }
+
+/* ─── AUDIENCE ─── */
+.audience-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.aud-card { background:var(--card); border:1px solid var(--border); padding:28px 24px; position:relative; overflow:hidden; }
+.aud-card::after { content:attr(data-n); position:absolute; bottom:-24px; right:-8px; font-family:'Cormorant Garamond',serif; font-size:100px; color:rgba(201,168,76,0.04); font-weight:600; line-height:1; }
+.aud-tag { font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; font-family:'Unbounded',sans-serif; }
+.aud-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); font-weight:600; margin-bottom:10px; }
+.aud-pains { list-style:none; }
+.aud-pain { display:flex; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:12px; color:var(--text); font-weight:300; line-height:1.5; }
+.aud-pain:last-child { border-bottom:none; }
+.aud-pain::before { content:'—'; color:var(--gold-dim); flex-shrink:0; }
+
+/* ─── DIFFERENTIATORS ─── */
+.diff-list { display:flex; flex-direction:column; gap:0; }
+.diff-item { display:grid; grid-template-columns:80px 1fr 1fr; gap:0; border-bottom:1px solid var(--border); }
+.diff-item:first-child { border-top:1px solid var(--border); }
+.diff-n { padding:32px 24px; display:flex; align-items:center; justify-content:center; border-right:1px solid var(--border); }
+.diff-n-inner { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--gold-dim); line-height:1; }
+.diff-market { padding:32px 32px; border-right:1px solid var(--border); background:rgba(201,106,118,0.03); }
+.diff-us { padding:32px 32px; background:rgba(201,168,76,0.03); }
+.diff-label { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:8px; font-family:'Unbounded',sans-serif; }
+.diff-market .diff-label { color:var(--rose); }
+.diff-us .diff-label { color:var(--gold); }
+.diff-text { font-size:13px; color:var(--text); font-weight:300; line-height:1.7; }
+.diff-text strong { color:var(--cream); font-weight:500; }
+
+/* ─── CONTENT PILLARS ─── */
+.pillars-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+.cp-cell { background:var(--surface); padding:28px 22px; }
+.cp-icon { font-size:24px; margin-bottom:12px; }
+.cp-title { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--cream); font-weight:600; margin-bottom:8px; }
+.cp-items { list-style:none; }
+.cp-item { font-size:11px; color:var(--muted); padding:4px 0; border-bottom:1px solid rgba(201,168,76,0.06); font-weight:300; }
+.cp-item:last-child { border-bottom:none; }
+
+/* ─── TEAM ROLES ─── */
+.roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.role-card { background:var(--card); border:1px solid var(--border); padding:28px; }
+.role-title { font-size:13px; font-weight:500; color:var(--cream); margin-bottom:6px; }
+.role-tag { font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; font-family:'Unbounded',sans-serif; }
+.role-resp { list-style:none; }
+.role-item { display:flex; gap:10px; padding:5px 0; font-size:12px; color:var(--muted); font-weight:300; border-bottom:1px solid rgba(255,255,255,0.04); }
+.role-item:last-child { border-bottom:none; }
+.role-item::before { content:'→'; color:var(--gold-dim); flex-shrink:0; }
+
+/* ─── METRICS ─── */
+.metrics-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:32px; }
+.metric-cell { background:var(--surface); padding:28px 24px; text-align:center; }
+.metric-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:600; color:var(--gold); line-height:1; margin-bottom:4px; }
+.metric-label { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.metric-desc { font-size:11px; color:var(--text); font-weight:300; }
+
+/* ─── FUNNEL ─── */
+.funnel-steps { display:flex; flex-direction:column; gap:0; }
+.funnel-step { display:grid; grid-template-columns:64px 1fr; position:relative; }
+.fn-col { display:flex; flex-direction:column; align-items:center; }
+.fn-dot { width:40px; height:40px; border:1px solid var(--border); background:var(--surface); display:flex; align-items:center; justify-content:center; font-family:'Unbounded',sans-serif; font-size:10px; color:var(--gold); font-weight:700; flex-shrink:0; position:relative; z-index:1; }
+.fn-line { flex:1; width:1px; background:linear-gradient(to bottom,var(--gold-dim),transparent); margin:0 auto; min-height:32px; }
+.fn-body { background:var(--card); border:1px solid var(--border); border-left:3px solid var(--gold); padding:24px 28px; margin-bottom:16px; margin-left:16px; position:relative; overflow:hidden; }
+.fn-body::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+.fn-stage { font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; font-family:'Unbounded',sans-serif; }
+.fn-title { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--cream); font-weight:600; margin-bottom:6px; }
+.fn-desc { font-size:13px; color:var(--muted); font-weight:300; line-height:1.7; }
+
+/* ─── RULES ─── */
+.rules-block { background:linear-gradient(135deg,var(--surface) 0%,var(--card) 100%); border:1px solid var(--border); padding:56px; position:relative; overflow:hidden; }
+.rules-block::before { content:'БИЗНЕС КОД'; position:absolute; bottom:-30px; right:-20px; font-family:'Unbounded',sans-serif; font-weight:700; font-size:80px; color:rgba(201,168,76,0.03); letter-spacing:-2px; line-height:1; pointer-events:none; }
+.rules-title { font-family:'Cormorant Garamond',serif; font-size:34px; color:var(--cream); margin-bottom:36px; font-weight:300; font-style:italic; }
+.rule-row { display:flex; gap:24px; margin-bottom:24px; }
+.rule-row:last-child { margin-bottom:0; }
+.rn { font-family:'Cormorant Garamond',serif; font-size:36px; color:var(--gold-dim); flex-shrink:0; line-height:1.2; width:40px; }
+.rb-head { font-size:13px; font-weight:500; color:var(--cream); margin-bottom:4px; }
+.rb-text { font-size:13px; color:var(--muted); font-weight:300; line-height:1.7; }
+
+/* ─── FOOTER ─── */
+footer { border-top:1px solid var(--border); padding:32px 80px; display:flex; align-items:center; justify-content:space-between; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
+.footer-brand { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold); letter-spacing:0.1em; text-transform:none; }
+
+@media(max-width:1000px){
+  .cover { grid-template-columns:1fr; }
+  .cover-right { border-left:none; border-top:1px solid var(--border); }
+  .section,.section-sm { padding:48px 24px; }
+  .rule { margin:0 24px; }
+  .problem-grid,.mission-pillars,.audience-grid,.pillars-grid,.metrics-grid { grid-template-columns:1fr; }
+  .diff-item { grid-template-columns:1fr; }
+  .diff-n { display:none; }
+  .roles-grid { grid-template-columns:1fr; }
+  footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-glow2"></div>
+
+  <div class="cover-left">
+    <div class="cover-eyebrow">Внутренний документ · Команда</div>
+    <div class="cover-label">Анастасия Висмут</div>
+    <h1 class="cover-title">Бизнес<br><em>Код</em></h1>
+    <p class="cover-tagline">Концепция бесплатного Telegram-клуба для экспертов и предпринимателей 18–28 лет</p>
+    <div class="cover-badge">◆ Только для команды · Не для публикации</div>
+  </div>
+
+  <div class="cover-right">
+    <div class="cover-right-tag">Содержание</div>
+    <ul class="cover-toc">
+      <li class="toc-item">
+        <div class="toc-n">01</div>
+        <div class="toc-body"><div class="toc-title">Проблема и возможность</div><div class="toc-sub">Почему рынок не закрывает эту нишу</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">02</div>
+        <div class="toc-body"><div class="toc-title">Миссия и позиция</div><div class="toc-sub">Зачем существует клуб</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">03</div>
+        <div class="toc-body"><div class="toc-title">Аудитория</div><div class="toc-sub">Три портрета участника</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">04</div>
+        <div class="toc-body"><div class="toc-title">Отличия от рынка</div><div class="toc-sub">Почему выберут нас</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">05</div>
+        <div class="toc-body"><div class="toc-title">Контент и воронка</div><div class="toc-sub">Что публикуем и куда ведём</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">06</div>
+        <div class="toc-body"><div class="toc-title">Роли команды</div><div class="toc-sub">Кто за что отвечает</div></div>
+      </li>
+      <li class="toc-item">
+        <div class="toc-n">07</div>
+        <div class="toc-body"><div class="toc-title">Метрики успеха</div><div class="toc-sub">Как понять что клуб работает</div></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 01 ПРОБЛЕМА -->
+<div class="section">
+  <div class="section-tag">01 · Проблема и возможность</div>
+  <h2 class="section-title">Люди ищут ответы.<br>Их негде взять.</h2>
+  <p class="section-intro">Молодые предприниматели и эксперты 18–28 лет — самая активная и самая неудовлетворённая аудитория онлайн-рынка. Они хотят расти, делают попытки — и раз за разом упираются в одно и то же.</p>
+
+  <div class="problem-grid">
+    <div class="problem-cell">
+      <div class="pc-tag" style="color:var(--rose)">Что есть на рынке</div>
+      <div class="pc-title">Курсы которые обещают — и не дают</div>
+      <div class="pc-text">Рынок переполнен обучением. Курсы по продюсированию, марафоны по запускам, наставничества за 300к. Большинство из них продают <strong>надежду на результат</strong>, а не сам результат. Молодая аудитория это чувствует — и теряет доверие к экспертам целым поколением.</div>
+    </div>
+    <div class="problem-cell highlight">
+      <div class="pc-tag" style="color:var(--gold)">Что нужно на самом деле</div>
+      <div class="pc-title">Место где можно прийти с вопросом и получить честный ответ</div>
+      <div class="pc-text">Не ещё один курс. Не ещё один гуру. <strong>Живое сообщество</strong> где можно спросить «у меня не идут продажи — почему», «как поставить задачу команде», «стоит ли мне вообще в это идти» — и получить реальный ответ от человека который прошёл через это сам.</div>
+    </div>
+    <div class="problem-cell highlight">
+      <div class="pc-tag" style="color:var(--sky)">Разрыв на рынке</div>
+      <div class="pc-title">Бесплатных клубов с реальной ценностью — почти нет</div>
+      <div class="pc-text">Есть Telegram-каналы с полезными постами. Есть платные мастермайнды. <strong>Бесплатного живого сообщества</strong> с регулярным контентом, разборами, интерактивами и доступом к эксперту — на этом рынке практически не существует. Это и есть наша возможность.</div>
+    </div>
+    <div class="problem-cell">
+      <div class="pc-tag" style="color:var(--sage)">Наш ответ</div>
+      <div class="pc-title">Клуб «Бизнес Код» — место где задают вопросы и получают ответы</div>
+      <div class="pc-text">Бесплатный Telegram-клуб. Регулярный контент по продюсированию, маркетингу, продажам, управлению. Живые разборы. Интерактивы. И <strong>эксперт который говорит правду</strong> — без инфоцыганства и без продажи воздуха.</div>
+    </div>
+  </div>
+
+  <div class="big-quote">
+    <div class="bq-text">Молодые предприниматели не нуждаются в ещё одном курсе. Они нуждаются в месте где можно быть честными про то, что не получается.</div>
+    <div class="bq-source">— Основа концепции клуба «Бизнес Код»</div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 02 МИССИЯ -->
+<div class="section">
+  <div class="section-tag">02 · Миссия и позиция</div>
+  <h2 class="section-title">Зачем<br>существует клуб.</h2>
+
+  <div class="mission-block">
+    <div class="mission-tag">Миссия</div>
+    <div class="mission-text">
+      Дать молодым экспертам и предпринимателям <strong>доступ к реальным знаниям и честным ответам</strong> — без барьера в виде высокого чека. Клуб — это не воронка ради воронки. Это среда, в которой люди растут. А люди которые растут — сами приходят за следующим шагом.
+    </div>
+
+    <div class="mission-pillars">
+      <div class="pillar p1">
+        <div class="pillar-num">01</div>
+        <div class="pillar-title">Честность как стандарт</div>
+        <div class="pillar-text">Говорим то что есть. Не продаём мечту. Не скрываем что сложно. Именно это отличает клуб от 99% контента на рынке для молодых предпринимателей.</div>
+      </div>
+      <div class="pillar p2">
+        <div class="pillar-num">02</div>
+        <div class="pillar-title">Практика без теории ради теории</div>
+        <div class="pillar-text">Каждый пост, каждый разбор, каждый интерактив — это что-то что можно применить сегодня. Не «концепция успеха» — конкретное действие с конкретным результатом.</div>
+      </div>
+      <div class="pillar p3">
+        <div class="pillar-num">03</div>
+        <div class="pillar-title">Сообщество как главный актив</div>
+        <div class="pillar-text">Ценность клуба — не только в контенте эксперта. В людях которые здесь собираются. Наша задача: создать среду где молодые предприниматели помогают друг другу расти.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 03 АУДИТОРИЯ -->
+<div class="section">
+  <div class="section-tag">03 · Аудитория</div>
+  <h2 class="section-title">Три портрета<br>участника.</h2>
+  <p class="section-intro">Аудитория клуба — 18–28 лет. Внутри неё три разных сегмента с разными болями. Контент должен попадать в каждого из трёх.</p>
+
+  <div class="audience-grid">
+    <div class="aud-card" data-n="1">
+      <div class="aud-tag">Портрет 01</div>
+      <div class="aud-title">Начинающий эксперт</div>
+      <ul class="aud-pains">
+        <li class="aud-pain">Есть экспертиза — нет клиентов</li>
+        <li class="aud-pain">Не понимает как упаковать себя</li>
+        <li class="aud-pain">Боится называть цену</li>
+        <li class="aud-pain">Делает всё подряд и не знает что работает</li>
+        <li class="aud-pain">Сравнивает себя с теми кто дальше — и опускает руки</li>
+      </ul>
+    </div>
+    <div class="aud-card" data-n="2">
+      <div class="aud-tag">Портрет 02</div>
+      <div class="aud-title">Действующий предприниматель</div>
+      <ul class="aud-pains">
+        <li class="aud-pain">Зарабатывает — но хаотично, без системы</li>
+        <li class="aud-pain">Команда не работает как надо</li>
+        <li class="aud-pain">Весь день в операционке, нет стратегии</li>
+        <li class="aud-pain">Загорается новыми идеями и гаснет</li>
+        <li class="aud-pain">Не может выйти на следующий уровень дохода</li>
+      </ul>
+    </div>
+    <div class="aud-card" data-n="3">
+      <div class="aud-tag">Портрет 03</div>
+      <div class="aud-title">Продюсер / Маркетолог</div>
+      <ul class="aud-pains">
+        <li class="aud-pain">Работает на чужих проектах — хочет своё</li>
+        <li class="aud-pain">Знает инструменты, не знает как монетизировать себя</li>
+        <li class="aud-pain">Ищет среду где можно учиться у практиков</li>
+        <li class="aud-pain">Хочет понять как устроены успешные запуски изнутри</li>
+        <li class="aud-pain">Нет сообщества ровесников с похожими целями</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 04 ОТЛИЧИЯ -->
+<div class="section">
+  <div class="section-tag">04 · Отличия от рынка</div>
+  <h2 class="section-title">Почему выберут<br>нас, а не других.</h2>
+  <p class="section-intro">Не «мы лучше» — а «мы другие». Конкурировать с тысячами Telegram-каналов по количеству контента невозможно. Конкурировать по качеству доверия — можно.</p>
+
+  <div class="diff-list">
+    <div class="diff-item">
+      <div class="diff-n"><div class="diff-n-inner">01</div></div>
+      <div class="diff-market">
+        <div class="diff-label">Рынок</div>
+        <div class="diff-text">Эксперт продаёт образ успеха. Показывает результаты, скрывает путь. Аудитория вдохновляется — но не понимает как повторить.</div>
+      </div>
+      <div class="diff-us">
+        <div class="diff-label">Бизнес Код</div>
+        <div class="diff-text"><strong>Эксперт показывает путь.</strong> Включая ошибки, провалы, моменты сомнения. Аудитория не просто вдохновляется — она понимает механику.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-n"><div class="diff-n-inner">02</div></div>
+      <div class="diff-market">
+        <div class="diff-label">Рынок</div>
+        <div class="diff-text">Полезный контент выходит раз в несколько дней. Между постами — тишина. Аудитория теряет связь с каналом и отписывается.</div>
+      </div>
+      <div class="diff-us">
+        <div class="diff-label">Бизнес Код</div>
+        <div class="diff-text"><strong>Клуб живёт каждый день.</strong> Опросы, задания, разборы, интерактивы. Человек приходит сюда как в рабочее место — здесь всегда что-то происходит.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-n"><div class="diff-n-inner">03</div></div>
+      <div class="diff-market">
+        <div class="diff-label">Рынок</div>
+        <div class="diff-text">Чтобы получить ответ на конкретный вопрос — нужно купить курс или наставничество. Бесплатного доступа к живому эксперту нет.</div>
+      </div>
+      <div class="diff-us">
+        <div class="diff-label">Бизнес Код</div>
+        <div class="diff-text"><strong>Живые разборы — бесплатно.</strong> Раз в неделю эксперт разбирает реальные ситуации участников. Это то, за что везде берут деньги.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-n"><div class="diff-n-inner">04</div></div>
+      <div class="diff-market">
+        <div class="diff-label">Рынок</div>
+        <div class="diff-text">Контент универсальный — для всех и ни для кого. Читаешь пост и думаешь «интересно» — но не «это про меня».</div>
+      </div>
+      <div class="diff-us">
+        <div class="diff-label">Бизнес Код</div>
+        <div class="diff-text"><strong>Контент строится на болях аудитории.</strong> Каждая тема — из реальных вопросов реальных участников. Человек читает и думает: «откуда они знают что у меня именно это».</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 05 КОНТЕНТ И ВОРОНКА -->
+<div class="section">
+  <div class="section-tag">05 · Контент и воронка</div>
+  <h2 class="section-title">Что публикуем<br>и куда ведём.</h2>
+  <p class="section-intro">Клуб — это точка входа. Всё что внутри строится с одной логикой: дать настоящую ценность — и создать желание идти дальше.</p>
+
+  <div class="pillars-grid" style="margin-bottom:48px;">
+    <div class="cp-cell">
+      <div class="cp-icon">🎯</div>
+      <div class="cp-title">Продажи</div>
+      <ul class="cp-items">
+        <li class="cp-item">Первые клиенты без аудитории</li>
+        <li class="cp-item">Как называть цену</li>
+        <li class="cp-item">Работа с возражениями</li>
+        <li class="cp-item">Продажи через личку</li>
+      </ul>
+    </div>
+    <div class="cp-cell">
+      <div class="cp-icon">📣</div>
+      <div class="cp-title">Маркетинг</div>
+      <ul class="cp-items">
+        <li class="cp-item">Контент который продаёт</li>
+        <li class="cp-item">Трафик без больших бюджетов</li>
+        <li class="cp-item">Упаковка эксперта</li>
+        <li class="cp-item">Воронки для малых аудиторий</li>
+      </ul>
+    </div>
+    <div class="cp-cell">
+      <div class="cp-icon">🚀</div>
+      <div class="cp-title">Продюсирование</div>
+      <ul class="cp-items">
+        <li class="cp-item">Как устроен запуск изнутри</li>
+        <li class="cp-item">Ошибки первых запусков</li>
+        <li class="cp-item">Работа с экспертом</li>
+        <li class="cp-item">Монетизация чужой экспертизы</li>
+      </ul>
+    </div>
+    <div class="cp-cell">
+      <div class="cp-icon">👥</div>
+      <div class="cp-title">Команда</div>
+      <ul class="cp-items">
+        <li class="cp-item">Постановка задач</li>
+        <li class="cp-item">Первый найм</li>
+        <li class="cp-item">Делегирование без потери качества</li>
+        <li class="cp-item">Мотивация без денег</li>
+      </ul>
+    </div>
+    <div class="cp-cell">
+      <div class="cp-icon">🧠</div>
+      <div class="cp-title">Мышление</div>
+      <ul class="cp-items">
+        <li class="cp-item">Психология денег</li>
+        <li class="cp-item">Страх видимости</li>
+        <li class="cp-item">Выгорание и энергия</li>
+        <li class="cp-item">Идентичность предпринимателя</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ВОРОНКА -->
+  <div style="margin-bottom:16px; font-family:'Unbounded',sans-serif; font-size:8px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:12px;"><span>◆</span> Путь участника</div>
+  <div class="funnel-steps">
+    <div class="funnel-step">
+      <div class="fn-col"><div class="fn-dot">01</div><div class="fn-line"></div></div>
+      <div class="fn-body">
+        <div class="fn-stage">Точка входа</div>
+        <div class="fn-title">Вступает в клуб</div>
+        <div class="fn-desc">Через рилс, рекомендацию, репост. Первый контент который видит — попадает точно в его боль. Остаётся потому что «здесь про меня».</div>
+      </div>
+    </div>
+    <div class="funnel-step">
+      <div class="fn-col"><div class="fn-dot">02</div><div class="fn-line"></div></div>
+      <div class="fn-body">
+        <div class="fn-stage">Вовлечение</div>
+        <div class="fn-title">Участвует в интерактивах</div>
+        <div class="fn-desc">Отвечает на опросы, пишет в комментах, проходит челленджи. Каждое действие увеличивает психологическую вложенность — уйти становится сложнее.</div>
+      </div>
+    </div>
+    <div class="funnel-step">
+      <div class="fn-col"><div class="fn-dot">03</div><div class="fn-line"></div></div>
+      <div class="fn-body">
+        <div class="fn-stage">Доверие</div>
+        <div class="fn-title">Слушает голосовые, приходит на разборы</div>
+        <div class="fn-desc">Голос эксперта создаёт личную связь. Человек начинает чувствовать: «она понимает мою ситуацию лучше чем кто-либо». Это и есть готовность к следующему шагу.</div>
+      </div>
+    </div>
+    <div class="funnel-step">
+      <div class="fn-col"><div class="fn-dot">04</div><div class="fn-line"></div></div>
+      <div class="fn-body">
+        <div class="fn-stage">Конверсия</div>
+        <div class="fn-title">Записывается на диагностику</div>
+        <div class="fn-desc">Не потому что его убедили — потому что он сам понял что хочет большего. Диагностика воспринимается как логичный следующий шаг, а не как продажа.</div>
+      </div>
+    </div>
+    <div class="funnel-step">
+      <div class="fn-col"><div class="fn-dot">05</div></div>
+      <div class="fn-body" style="border-left-color:var(--gold-light);">
+        <div class="fn-stage">Продажа</div>
+        <div class="fn-title">Покупает «Бизнес Код» · 300 000 ₽</div>
+        <div class="fn-desc">Человек который прошёл через клуб покупает не программу — он покупает продолжение отношений с экспертом которому уже доверяет. Конверсия выше. Возражений меньше.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 06 КОМАНДА -->
+<div class="section">
+  <div class="section-tag">06 · Роли команды</div>
+  <h2 class="section-title">Кто за что<br>отвечает.</h2>
+  <p class="section-intro">Клуб ведётся командой от имени эксперта. Голос и экспертиза — одного человека. Производство и операционка — команды. Это важно не перепутать.</p>
+
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-tag">Эксперт</div>
+      <div class="role-title">Анастасия Висмут — лицо и голос клуба</div>
+      <ul class="role-resp">
+        <li class="role-item">Голосовые и видео — только живые, не скриптовые</li>
+        <li class="role-item">Разборы реальных ситуаций участников</li>
+        <li class="role-item">Ответы на комментарии — первые два месяца лично</li>
+        <li class="role-item">Финальное одобрение всех провокационных постов</li>
+        <li class="role-item">Личные истории и уязвимость — только от неё</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-tag">Контент-менеджер</div>
+      <div class="role-title">Производство и публикация контента</div>
+      <ul class="role-resp">
+        <li class="role-item">Написание постов по утверждённому контент-плану</li>
+        <li class="role-item">Публикация по расписанию — без задержек</li>
+        <li class="role-item">Создание опросов и интерактивных форматов</li>
+        <li class="role-item">Мониторинг комментариев и передача горячих вопросов эксперту</li>
+        <li class="role-item">Ежедневный отчёт по вовлечённости</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-tag">Трафик-менеджер</div>
+      <div class="role-title">Рост аудитории клуба</div>
+      <ul class="role-resp">
+        <li class="role-item">Репосты через партнёрские каналы</li>
+        <li class="role-item">Настройка таргета на вступление в клуб</li>
+        <li class="role-item">Коллаборации с другими экспертами для аудитории 18–28</li>
+        <li class="role-item">Перелинковка клуба из основного контента эксперта</li>
+        <li class="role-item">Еженедельный отчёт по приросту</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-tag">Ответственный за воронку</div>
+      <div class="role-title">Конверсия клуба в диагностики</div>
+      <ul class="role-resp">
+        <li class="role-item">Отслеживать активных участников клуба</li>
+        <li class="role-item">Писать тёплым участникам с приглашением на диагностику</li>
+        <li class="role-item">Отправлять лид-магнит (аудит бизнеса) после записи</li>
+        <li class="role-item">Вести таблицу: участник клуба → диагностика → продажа</li>
+        <li class="role-item">Еженедельный отчёт по конверсии</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 07 МЕТРИКИ -->
+<div class="section">
+  <div class="section-tag">07 · Метрики успеха</div>
+  <h2 class="section-title">Как понять<br>что клуб работает.</h2>
+  <p class="section-intro">Клуб работает не когда в нём много подписчиков. Клуб работает когда подписчики активны и конвертируются в диагностики.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-cell">
+      <div class="metric-num">15%</div>
+      <div class="metric-label">ER — вовлечённость</div>
+      <div class="metric-desc">Минимальный показатель здорового клуба. Ниже — проблема с контентом.</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">500</div>
+      <div class="metric-label">Участников к концу месяца 1</div>
+      <div class="metric-desc">Цель первого месяца. При качественном трафике — достижимо.</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">10</div>
+      <div class="metric-label">Диагностик из клуба в месяц</div>
+      <div class="metric-desc">При конверсии клуб → диагностика 2%. С 500 участников — реально.</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">3</div>
+      <div class="metric-label">Продажи из клуба в месяц</div>
+      <div class="metric-desc">Конверсия диагностика → продажа 35%. 10 диагностик = 3–4 продажи.</div>
+    </div>
+  </div>
+
+  <div class="rules-block">
+    <div class="rules-title">Три вещи которые убивают клуб — и которых нельзя допускать</div>
+    <div class="rule-row">
+      <div class="rn">01</div>
+      <div>
+        <div class="rb-head">Контент выходит нерегулярно</div>
+        <div class="rb-text">Один пропущенный день — потеря части аудитории навсегда. Алгоритм Telegram не прощает перерывов. Расписание — это не рекомендация, это закон.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rn">02</div>
+      <div>
+        <div class="rb-head">Эксперт исчезает из клуба</div>
+        <div class="rb-text">Клуб ведёт команда — но лицо и голос всегда один. Если участники перестают слышать живой голос эксперта — клуб превращается в ещё один безликий канал. Минимум одно живое появление в неделю.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rn">03</div>
+      <div>
+        <div class="rb-head">Продают слишком рано или слишком агрессивно</div>
+        <div class="rb-text">Клуб — это место доверия. Первые два месяца продукт не упоминается в контенте вообще. Только диагностика — мягко, через личные сообщения тёплым участникам. Любая агрессивная продажа в клубе разрушает то доверие которое строилось месяцами.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Бизнес Код · Клуб</div>
+  <span>Внутренний документ · Только для команды</span>
+  <span>Анастасия Висмут · 2026</span>
+</footer>
+
+</body>
+</html>
