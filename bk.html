@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бизнес Код — Консалтинг</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0a0c0f;
+  --surface:   #0f1218;
+  --card:      #131720;
+  --card2:     #161b24;
+  --line:      rgba(255,255,255,0.07);
+  --line2:     rgba(255,255,255,0.04);
+  --navy:      #1c2640;
+  --navy2:     #243050;
+
+  --gold:      #b8965a;
+  --gold-s:    #a07840;
+  --gold-l:    #d4b47c;
+  --gold-mute: rgba(184,150,90,0.18);
+
+  --text:      #e8eaf0;
+  --text-2:    #9299aa;
+  --text-3:    #5a6275;
+
+  --blue-dim:  #2c4a7a;
+  --blue-mute: rgba(44,74,122,0.25);
+
+  --teal:      #4a8a7a;
+  --teal-mute: rgba(74,138,122,0.2);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 40px 80px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-noise {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(28,38,64,0.7) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(28,38,64,0.3) 0%, transparent 60%);
+}
+
+.hero-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 820px; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 36px;
+}
+.eyebrow-line { width: 36px; height: 1px; background: var(--gold-s); opacity: 0.6; }
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(54px, 9vw, 110px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold-l);
+}
+
+.hero-sub {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text-3); margin-top: 18px;
+}
+
+.hero-rule {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold-s), transparent);
+  margin: 36px auto;
+}
+
+.hero-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 2vw, 21px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-2);
+  max-width: 580px;
+  margin: 0 auto 48px;
+  line-height: 1.65;
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid rgba(184,150,90,0.35);
+  color: var(--gold);
+  padding: 9px 28px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.35em; text-transform: uppercase;
+}
+
+/* ── LAYOUT ── */
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 44px; }
+
+/* ── SECTION HEAD ── */
+.sec { padding: 80px 0 0; }
+
+.sec-eyebrow {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+}
+
+.sec-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 600; line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.sec-intro {
+  color: var(--text-2); font-weight: 300;
+  max-width: 600px; font-size: 14px;
+  line-height: 1.85; margin-bottom: 44px;
+}
+
+.divider { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+/* ── КОНЦЕПЦИЯ ── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 44px;
+}
+
+.concept-cell {
+  background: var(--card);
+  padding: 36px 34px;
+}
+
+.concept-cell h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 600;
+  margin-bottom: 10px; color: var(--text);
+}
+
+.concept-cell p {
+  color: var(--text-2); font-size: 13.5px;
+  font-weight: 300; line-height: 1.85;
+}
+
+.concept-cell.wide { grid-column: 1 / -1; }
+
+.concept-cell .label {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+}
+
+/* stat strip */
+.stat-strip {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 60px;
+}
+
+.stat-cell {
+  background: var(--surface);
+  padding: 28px 26px;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px; font-weight: 600; line-height: 1;
+  color: var(--gold-l); margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ── EXPERTS ── */
+.experts-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 60px;
+}
+
+.expert {
+  background: var(--card);
+  padding: 44px 38px;
+  position: relative; overflow: hidden;
+}
+
+.expert::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-s), transparent);
+}
+
+.expert-index {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px; font-weight: 700;
+  line-height: 1; color: rgba(255,255,255,0.03);
+  position: absolute; top: 16px; right: 24px;
+  letter-spacing: -3px;
+}
+
+.expert h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.expert-role {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.expert p {
+  color: var(--text-2); font-size: 13px;
+  font-weight: 300; line-height: 1.85;
+}
+
+.expert-tags {
+  display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px;
+}
+
+.tag {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border: 1px solid var(--line);
+  padding: 4px 12px; color: var(--text-3);
+}
+
+/* ── MEETINGS ── */
+.meetings-table {
+  border: 1px solid var(--line);
+  margin-bottom: 60px;
+  overflow: hidden;
+}
+
+.mt-header {
+  display: grid;
+  grid-template-columns: 80px 90px 1fr 1fr;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+}
+
+.mt-header > div {
+  padding: 12px 18px;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text-3);
+  border-right: 1px solid var(--line);
+}
+.mt-header > div:last-child { border-right: none; }
+
+.mt-row {
+  display: grid;
+  grid-template-columns: 80px 90px 1fr 1fr;
+  border-bottom: 1px solid var(--line2);
+  transition: background 0.2s;
+}
+.mt-row:last-child { border-bottom: none; }
+.mt-row:hover { background: rgba(255,255,255,0.015); }
+
+/* month marker row */
+.mt-month {
+  grid-column: 1 / -1;
+  background: var(--navy);
+  padding: 10px 18px;
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.mt-month-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold);
+}
+.mt-month-desc { font-size: 11px; color: var(--text-3); font-weight: 300; }
+
+.mt-cell {
+  padding: 18px 18px;
+  border-right: 1px solid var(--line2);
+  font-size: 13px;
+}
+.mt-cell:last-child { border-right: none; }
+
+.mt-week {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 600;
+  color: rgba(184,150,90,0.3); line-height: 1;
+  padding-top: 20px;
+}
+
+.mt-stage-tag {
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  padding: 3px 8px; display: inline-block;
+  margin-bottom: 6px;
+}
+.stage-1 { color: #4a8a7a; background: rgba(74,138,122,0.12); }
+.stage-2 { color: #5a7ab8; background: rgba(90,122,184,0.12); }
+.stage-3 { color: var(--gold); background: var(--gold-mute); }
+.stage-4 { color: #a87ab8; background: rgba(168,122,184,0.12); }
+.stage-5 { color: #b87a6a; background: rgba(184,122,106,0.12); }
+
+.mt-stage-name {
+  font-size: 12px; font-weight: 500; color: var(--text);
+  line-height: 1.4;
+}
+
+.mt-topic-title {
+  font-size: 12.5px; font-weight: 600;
+  color: var(--text); margin-bottom: 5px; line-height: 1.4;
+}
+.mt-topic-desc {
+  font-size: 12px; color: var(--text-2);
+  font-weight: 300; line-height: 1.7;
+}
+
+.mt-topic-title.blue  { color: #6a9ed4; }
+.mt-topic-title.gold  { color: var(--gold-l); }
+.mt-topic-title.teal  { color: #6abfaa; }
+.mt-topic-title.mauve { color: #b89ad4; }
+.mt-topic-title.coral { color: #d4957a; }
+
+/* ── LESSONS ── */
+.lessons-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 60px;
+}
+
+.lesson {
+  background: var(--card);
+  padding: 28px 28px;
+  display: grid; grid-template-columns: 52px 1fr; gap: 16px;
+  transition: background 0.2s;
+}
+.lesson:hover { background: var(--card2); }
+
+.l-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; font-weight: 700; line-height: 1;
+  color: rgba(184,150,90,0.2); padding-top: 2px;
+}
+
+.l-week {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--text-3); margin-bottom: 6px;
+}
+
+.lesson h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 600;
+  line-height: 1.35; margin-bottom: 8px; color: var(--text);
+}
+
+.lesson p {
+  font-size: 12px; color: var(--text-2);
+  font-weight: 300; line-height: 1.75;
+}
+
+.lesson .l-hw {
+  margin-top: 12px; padding: 10px 14px;
+  background: rgba(184,150,90,0.07);
+  border-left: 2px solid var(--gold-s);
+  font-size: 11.5px; color: var(--text-2);
+  font-weight: 300; line-height: 1.6;
+}
+
+.lesson .l-hw strong {
+  color: var(--gold); font-weight: 600;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; display: block;
+  margin-bottom: 3px;
+}
+
+/* ── STAGES ── */
+.stage-block { margin-bottom: 48px; }
+
+.stage-hd {
+  display: grid; grid-template-columns: 72px 1fr;
+  gap: 24px; align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 22px; margin-bottom: 0;
+}
+
+.stage-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 58px; font-weight: 700; line-height: 1;
+  color: rgba(184,150,90,0.25);
+}
+
+.stage-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 600; margin-bottom: 3px;
+}
+
+.stage-when {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.stage-cols {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px; background: var(--line2);
+  border: 1px solid var(--line); border-top: none;
+}
+
+.sc {
+  background: var(--card); padding: 24px 22px;
+}
+
+.sc-title {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--line2);
+}
+.sc-title.c-main   { color: #5a9ad4; }
+.sc-title.c-mind   { color: var(--gold); }
+.sc-title.c-promo  { color: #5ab4a4; }
+
+.sc ul { list-style: none; }
+.sc ul li {
+  font-size: 12.5px; color: var(--text-2);
+  padding: 6px 0; border-bottom: 1px solid var(--line2);
+  font-weight: 300; line-height: 1.55;
+}
+.sc ul li:last-child { border-bottom: none; }
+.sc ul li::before { content: '—'; color: var(--gold-s); margin-right: 9px; font-size: 11px; opacity: 0.6; }
+
+/* ── COMMUNITY ── */
+.community {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 56px 56px;
+  position: relative; overflow: hidden;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.community::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-s), transparent);
+  opacity: 0.4;
+}
+
+.community h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px; font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.community > p {
+  color: var(--text-2); font-weight: 300;
+  max-width: 560px; margin: 0 auto 40px;
+  font-size: 14px; line-height: 1.85;
+}
+
+.community-perks {
+  display: flex; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+  border: 1px solid var(--line);
+}
+
+.perk {
+  flex: 1; min-width: 140px; max-width: 200px;
+  padding: 24px 20px; text-align: center;
+  border-right: 1px solid var(--line);
+}
+.perk:last-child { border-right: none; }
+
+.perk-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-s); margin: 0 auto 12px;
+  opacity: 0.7;
+}
+
+.perk p {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 44px 44px;
+  max-width: 1060px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+
+.foot-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 600;
+}
+.foot-brand em { font-style: italic; color: var(--gold-l); }
+
+.foot-copy {
+  font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 780px) {
+  .wrap { padding: 0 20px; }
+  .concept-grid, .experts-wrap, .lessons-grid { grid-template-columns: 1fr; }
+  .concept-cell.wide { grid-column: 1; }
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .mt-header, .mt-row { grid-template-columns: 1fr; }
+  .mt-header { display: none; }
+  .stage-cols { grid-template-columns: 1fr; }
+  .community { padding: 36px 20px; }
+  .community-perks { flex-direction: column; align-items: center; }
+  .perk { border-right: none; border-bottom: 1px solid var(--line); width: 100%; max-width: 100%; }
+  footer { flex-direction: column; text-align: center; padding: 36px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Бизнес-консалтинг<span class="eyebrow-line"></span></div>
+    <h1>Бизнес <em>Код</em></h1>
+    <p class="hero-sub">Для предпринимателей онлайн-пространства</p>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Системная работа над вашим проектом: от идеи до стабильно работающего онлайн-бизнеса</p>
+    <span class="badge">2,5 месяца · Запуск под ключ</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ КОНЦЕПЦИЯ ═══ -->
+<div class="wrap">
+  <div class="sec">
+    <p class="sec-eyebrow">Концепция продукта</p>
+    <h2 class="sec-h">Что такое Бизнес Код</h2>
+    <p class="sec-intro">Консалтинговая программа для тех, кто хочет создать или структурировать онлайн-проект. Мы не просто даём знания — мы работаем рядом, пока проект не заработает.</p>
+  </div>
+
+  <div class="concept-grid">
+    <div class="concept-cell wide">
+      <div class="label">Главная идея</div>
+      <h4>Управление проектом как основа — психология и PR как усилители</h4>
+      <p>Большинство онлайн-проектов проваливаются не потому, что идея плохая, а потому что нет системы. Бизнес Код даёт предпринимателю три вещи одновременно: структуру проекта (классические 5 этапов управления), работу с внутренними блоками и установками, которые тормозят движение, и PR-стратегию, которая строит аудиторию ещё до запуска. Всё это — в формате живой работы с двумя экспертами, а не в виде записанных курсов.</p>
+    </div>
+    <div class="concept-cell">
+      <div class="label">Для кого</div>
+      <h4>Ваш предприниматель</h4>
+      <p>Эксперт, который хочет монетизировать знания и создать онлайн-продукт. Тот, кто планирует открыть продюсерский центр, запустить курс, обучение, тренинг или SMM-агентство. Человек, у которого есть идея, но нет чёткого пути от точки А до первых продаж.</p>
+    </div>
+    <div class="concept-cell">
+      <div class="label">Что получает клиент</div>
+      <h4>Результат программы</h4>
+      <p>Готовый, работающий онлайн-проект с выстроенной воронкой продаж и первыми клиентами. Сформированный личный бренд и PR-присутствие в соцсетях. Проработанное мышление предпринимателя без страха провала и самозванца. Вход в сообщество единомышленников для дальнейшего роста.</p>
+    </div>
+    <div class="concept-cell">
+      <div class="label">Форматы проектов</div>
+      <h4>С чем мы работаем</h4>
+      <p>Продюсерские центры и продюсирование экспертов. Запуск авторских курсов, обучений, мастермайндов и тренингов. SMM-агентства и агентства контент-маркетинга. Экспертные блоги и инфопродукты. Коучинг-практики и консалтинговые проекты. Любой онлайн-бизнес, где основа — экспертность человека.</p>
+    </div>
+    <div class="concept-cell">
+      <div class="label">Ритм работы</div>
+      <h4>Как устроены 2,5 месяца</h4>
+      <p>Каждую неделю — живая встреча с двумя экспертами продолжительностью 90 минут. Параллельно еженедельно выходит теоретический урок с практическим заданием. Итого: 10 встреч + 10 уроков = полный сопровождаемый путь от замысла к действующему проекту.</p>
+    </div>
+    <div class="concept-cell">
+      <div class="label">После программы</div>
+      <h4>Комьюнити предпринимателей</h4>
+      <p>По завершении активной фазы участники входят в закрытое сообщество. Нетворкинг, коллаборации, офлайн-встречи и тренинги, общий чат с кураторами, доска партнёрств. Среда для роста, а не просто чат выпускников.</p>
+    </div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Встреч с экспертами</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Теоретических уроков</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Этапов проекта</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Эксперта на каждую встречу</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ ЭКСПЕРТЫ ═══ -->
+<div class="wrap">
+  <div class="sec">
+    <p class="sec-eyebrow">Команда</p>
+    <h2 class="sec-h">Два эксперта — одна цель</h2>
+    <p class="sec-intro">Каждая встреча проходит с обоими экспертами одновременно. Вы получаете взгляд на проект с двух сторон сразу: структура и психология от Анастасии, продвижение и PR от Виктории.</p>
+  </div>
+
+  <div class="experts-wrap">
+    <div class="expert">
+      <div class="expert-index">01</div>
+      <h3>Анастасия Висмут</h3>
+      <p class="expert-role">Управление проектами · Психология</p>
+      <p>Ведёт клиента через все 5 этапов проектного управления: от инициации идеи до завершения и передачи проекта в операционный режим. Параллельно прорабатывает психологические блоки: страх провала, синдром самозванца, установки вокруг денег и успеха. Её задача — чтобы проект двигался не только на бумаге, но и внутри предпринимателя.</p>
+      <div class="expert-tags">
+        <span class="tag">PM-методологии</span>
+        <span class="tag">Работа с мышлением</span>
+        <span class="tag">Коучинг</span>
+        <span class="tag">Стратегия</span>
+      </div>
+    </div>
+    <div class="expert">
+      <div class="expert-index">02</div>
+      <h3>Виктория Александрова</h3>
+      <p class="expert-role">Продвижение · PR-стратегия</p>
+      <p>Строит систему привлечения аудитории и формирует личный бренд предпринимателя ещё до официального запуска продукта. Разрабатывает контент-стратегию, медиа-план, воронки прогрева и PR-активности. Её задача — чтобы к моменту открытия продаж аудитория уже знала, доверяла и ждала продукт.</p>
+      <div class="expert-tags">
+        <span class="tag">SMM-стратегия</span>
+        <span class="tag">Личный бренд</span>
+        <span class="tag">PR & Media</span>
+        <span class="tag">Лидогенерация</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ ВСТРЕЧИ ═══ -->
+<div class="wrap">
+  <div class="sec">
+    <p class="sec-eyebrow">Расписание встреч</p>
+    <h2 class="sec-h">10 недель · 10 встреч</h2>
+    <p class="sec-intro">Каждая встреча — 90 минут работы с двумя экспертами. Разбор вашего проекта, корректировки, домашние задания. Без воды и общих слов — только конкретика по вашей ситуации.</p>
+  </div>
+
+  <div class="meetings-table">
+    <div class="mt-header">
+      <div>Неделя</div>
+      <div>Этап</div>
+      <div>Анастасия — управление & мышление</div>
+      <div>Виктория — продвижение & PR</div>
+    </div>
+
+    <!-- MONTH 1 -->
+    <div class="mt-row">
+      <div class="mt-month" style="grid-column:1/-1">
+        <span class="mt-month-label">Месяц 1</span>
+        <span class="mt-month-desc">Инициация и Планирование · Недели 1–4</span>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">01</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-1">Инициация</span>
+        <div class="mt-stage-name">Этап 1</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title blue">Диагностика и первая встреча</div>
+        <div class="mt-topic-desc">Аудит ресурсов, целей и текущей ситуации. Выявление ограничивающих убеждений. Первичная психодиагностика предпринимателя. Формулировка устава проекта.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title teal">Анализ присутствия и рынка</div>
+        <div class="mt-topic-desc">Аудит текущих соцсетей и упаковки. Анализ конкурентов и рыночной ниши. Первое видение концепции личного бренда под выбранный проект.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">02</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-1">Инициация</span>
+        <div class="mt-stage-name">Этап 1</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title blue">Идея, ниша и продуктовая логика</div>
+        <div class="mt-topic-desc">Определение и валидация бизнес-идеи. Анализ целевой аудитории. Формулировка УТП и ценностного предложения. Оценка финансовой модели. Работа с установками вокруг своей ценности и цены.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title teal">Позиционирование и упаковка</div>
+        <div class="mt-topic-desc">Разработка концепции личного бренда. Определение PR-платформ и каналов. Начало работы над упаковкой профиля — описание, визуальный стиль, ключевые тезисы.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">03</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-2">Планирование</span>
+        <div class="mt-stage-name">Этап 2</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title blue">Детальный план запуска</div>
+        <div class="mt-topic-desc">План-график на 2,5 месяца по неделям. Структура продукта и программа курса/тренинга. Выбор платформ, инструментов, CRM. Распределение ролей и задач. Работа со страхом начать — психологическая подготовка к запуску.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title teal">PR-стратегия и контент-план</div>
+        <div class="mt-topic-desc">Разработка PR-стратегии на весь период запуска. Контент-матрица: рубрики, форматы, частота. Воронка прогрева аудитории. Медиа-план: коллаборации, блогеры, партнёрства. Создание первых лид-магнитов.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">04</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-2">Планирование</span>
+        <div class="mt-stage-name">Завершение плана</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title blue">Валидация и готовность к старту</div>
+        <div class="mt-topic-desc">Итоговая проверка плана на реалистичность. Бюджет и финансовая модель запуска. Тайм-менеджмент предпринимателя. Работа с перфекционизмом и страхом «сделать не так». Психологическая сессия: готовность двигаться.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title teal">Запуск прогрева и первый контент</div>
+        <div class="mt-topic-desc">Проверка упаковки профиля и публикация первых постов. Запуск прогрева аудитории по контент-матрице. Первые коллаборации и обмены аудиторией. Разбор первых реакций и корректировки.</div>
+      </div>
+    </div>
+
+    <!-- MONTH 2 -->
+    <div class="mt-row">
+      <div class="mt-month" style="grid-column:1/-1">
+        <span class="mt-month-label">Месяц 2</span>
+        <span class="mt-month-desc">Исполнение · Недели 5–8</span>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">05</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-3">Исполнение</span>
+        <div class="mt-stage-name">Этап 3</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title gold">Создание продукта и технические настройки</div>
+        <div class="mt-topic-desc">Контроль создания продукта по плану (запись уроков, программа, материалы). Настройка платёжных систем и лендинга. Управление задачами по Agile. Работа с прокрастинацией и внутренним сопротивлением.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title gold">Активный прогрев и первая реклама</div>
+        <div class="mt-topic-desc">Усиление прогрева: сторис, прямые эфиры, экспертный контент. Запуск первой таргетированной рекламы. Начало работы с блогерами и СМИ. PR-публикации и экспертные колонки.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">06</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-3">Исполнение</span>
+        <div class="mt-stage-name">Этап 3</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title gold">Тестирование на пилотной группе</div>
+        <div class="mt-topic-desc">Запуск продукта на пилотную группу (бесплатно или по спеццене). Сбор первой обратной связи и корректировка. Первые продажи: разбор скриптов и переписок. Работа с реакцией на первые отказы и критику.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title gold">Кейсы и социальные доказательства</div>
+        <div class="mt-topic-desc">Работа с отзывами пилотных участников. Упаковка первых кейсов для соцсетей. Усиление рекламных кампаний на основе первых данных. Партнёрские запуски и коллаборации для расширения аудитории.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">07</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-4">Мониторинг</span>
+        <div class="mt-stage-name">Этап 4</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title mauve">Анализ метрик и управление</div>
+        <div class="mt-topic-desc">Еженедельный разбор KPI: конверсии, выручка, стоимость клиента. Управление рисками и корректировка плана. Управление возражениями клиентов. Психологическая устойчивость в период активных продаж.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title mauve">Оптимизация и масштабирование рекламы</div>
+        <div class="mt-topic-desc">Анализ охватов, вовлечённости, конверсий по всем каналам. Оптимизация рекламных кампаний на основе данных. A/B тестирование офферов и посадочных страниц. Ретаргетинг на тёплую аудиторию.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">08</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-4">Мониторинг</span>
+        <div class="mt-stage-name">Этап 4</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title mauve">Управление качеством и командой</div>
+        <div class="mt-topic-desc">Контроль качества проведения курса/продукта. Управление командой и подрядчиками. Работа с тревожностью и перегревом у предпринимателя. Сохранение ресурсного состояния в активной фазе.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title mauve">PR-публикации и реакция на тренды</div>
+        <div class="mt-topic-desc">Использование актуальных инфоповодов для органического охвата. Работа с медиа: интервью, подкасты, экспертные комментарии. Усиление сарафанного радио через амбассадоров и адвокатов бренда.</div>
+      </div>
+    </div>
+
+    <!-- MONTH 3 -->
+    <div class="mt-row">
+      <div class="mt-month" style="grid-column:1/-1">
+        <span class="mt-month-label">Месяц 3 (2 недели)</span>
+        <span class="mt-month-desc">Завершение · Недели 9–10</span>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">09</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-5">Завершение</span>
+        <div class="mt-stage-name">Этап 5</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title coral">Документирование и передача в операцию</div>
+        <div class="mt-topic-desc">Документирование всех процессов (SOP). Построение системы для следующего запуска. Постановка операционных процессов. Работа с синдромом достигатора — психологическая интеграция результата.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title coral">Сборник кейсов и долгосрочная стратегия</div>
+        <div class="mt-topic-desc">Упаковка результатов первого запуска в кейсы и медиа-материалы. Долгосрочная контент-стратегия бренда. Построение базы амбассадоров и лояльных клиентов. Стратегия выхода на новые PR-площадки.</div>
+      </div>
+    </div>
+
+    <div class="mt-row">
+      <div class="mt-cell"><div class="mt-week">10</div></div>
+      <div class="mt-cell">
+        <span class="mt-stage-tag stage-5">Завершение</span>
+        <div class="mt-stage-name">Итог программы</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title coral">Финальная сессия. Цели на 6 месяцев вперёд</div>
+        <div class="mt-topic-desc">Финальная аналитика: разбор всего пути. Формирование стратегии масштабирования проекта. Новый уровень идентичности предпринимателя. Постановка целей на следующие 6 месяцев с дорожной картой.</div>
+      </div>
+      <div class="mt-cell">
+        <div class="mt-topic-title coral">PR-стратегия на период комьюнити</div>
+        <div class="mt-topic-desc">PR-план на следующие 3 месяца в комьюнити. Стратегия второго запуска или масштабирования. Введение в сообщество: первые коллаборации, партнёрства, нетворкинг.</div>
+      </div>
+    </div>
+
+  </div><!-- /meetings-table -->
+</div>
+
+<hr class="divider">
+
+<!-- ═══ УРОКИ ═══ -->
+<div class="wrap">
+  <div class="sec">
+    <p class="sec-eyebrow">Теоретическая база</p>
+    <h2 class="sec-h">10 уроков с практическими заданиями</h2>
+    <p class="sec-intro">Один урок выходит каждую неделю — до или после встречи с экспертами. Теория подкрепляет практическую работу и помогает осознать, что и зачем вы делаете. Каждый урок содержит практическое задание.</p>
+  </div>
+
+  <div class="lessons-grid">
+
+    <div class="lesson">
+      <div class="l-num">01</div>
+      <div>
+        <div class="l-week">Неделя 1</div>
+        <h4>Управление проектами: зачем предпринимателю PM-методология</h4>
+        <p>Что такое проект и чем он отличается от операционной деятельности. Классические и гибкие методологии (Waterfall, Agile, Scrum). Почему без системы управления большинство онлайн-проектов не доходят до запуска.</p>
+        <div class="l-hw"><strong>Задание</strong>Опишите ваш будущий проект через 5 ключевых характеристик: цель, сроки, бюджет, команда, риски. Первый черновик устава проекта.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">02</div>
+      <div>
+        <div class="l-week">Неделя 2</div>
+        <h4>Этап инициации: как правильно начать проект</h4>
+        <p>Устав проекта и зачем он нужен. Анализ заинтересованных сторон (стейкхолдеров). Оценка рисков на старте. Как сформулировать цели по SMART и почему это меняет всё. Финансовая модель для онлайн-проекта с нуля.</p>
+        <div class="l-hw"><strong>Задание</strong>Составьте устав своего проекта по шаблону: цель, аудитория, УТП, ресурсы, ключевые риски, критерии успеха.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">03</div>
+      <div>
+        <div class="l-week">Неделя 3</div>
+        <h4>Этап планирования: декомпозиция и план-график</h4>
+        <p>WBS — структурная декомпозиция работ. Как разбить большую цель на конкретные задачи. Диаграмма Ганта для онлайн-проекта. Приоритизация задач по методу MoSCoW. Планирование ресурсов: время, деньги, люди.</p>
+        <div class="l-hw"><strong>Задание</strong>Создайте детальный план-график вашего проекта в Notion или Trello с разбивкой по неделям на весь период работы.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">04</div>
+      <div>
+        <div class="l-week">Неделя 4</div>
+        <h4>Управление командой и коммуникациями</h4>
+        <p>Роли в онлайн-проекте: кто нужен и когда. Как делегировать без потери качества. Постановка задач по SMART. Матрица ответственности RACI. Инструменты управления командой: Notion, Trello, Slack, Telegram-боты.</p>
+        <div class="l-hw"><strong>Задание</strong>Составьте матрицу ролей и ответственности для вашего проекта. Определите, что делаете вы, что делегируете, что автоматизируете.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">05</div>
+      <div>
+        <div class="l-week">Неделя 5</div>
+        <h4>Этап исполнения: управление задачами и Agile</h4>
+        <p>Kanban-доска для онлайн-бизнеса. Спринты и итерации в контексте запуска курса или агентства. Как управлять несколькими потоками работы одновременно. Разница между «занятостью» и продуктивностью предпринимателя.</p>
+        <div class="l-hw"><strong>Задание</strong>Настройте Kanban-доску вашего проекта с колонками: Бэклог → В работе → На проверке → Готово. Перенесите все задачи из плана-графика.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">06</div>
+      <div>
+        <div class="l-week">Неделя 6</div>
+        <h4>Управление рисками и кризисными ситуациями</h4>
+        <p>Типичные риски онлайн-проектов: технические, финансовые, репутационные, личностные. Матрица рисков: вероятность и влияние. Стратегии реагирования. Как не паниковать, когда идёт не по плану — управленческий и психологический аспекты.</p>
+        <div class="l-hw"><strong>Задание</strong>Составьте реестр рисков для вашего проекта: минимум 7 рисков с оценкой вероятности и планом реагирования для каждого.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">07</div>
+      <div>
+        <div class="l-week">Неделя 7</div>
+        <h4>Мониторинг и контроль: метрики онлайн-бизнеса</h4>
+        <p>Ключевые показатели онлайн-проекта: CR, LTV, CAC, ROAS, NPS. Как выстроить еженедельный управленческий отчёт. Дашборд предпринимателя: что смотреть каждый день, каждую неделю, каждый месяц. Как принимать решения на основе данных, а не интуиции.</p>
+        <div class="l-hw"><strong>Задание</strong>Создайте шаблон еженедельного отчёта для вашего проекта с 5–7 ключевыми метриками. Определите пороговые значения для каждой.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">08</div>
+      <div>
+        <div class="l-week">Неделя 8</div>
+        <h4>Управление качеством и клиентский опыт</h4>
+        <p>Что такое качество продукта в онлайн-обучении и консалтинге. Системы сбора обратной связи. Работа с жалобами и возвратами. NPS и как использовать его для роста. Сервис как PR: как довольный клиент становится вашим лучшим маркетологом.</p>
+        <div class="l-hw"><strong>Задание</strong>Разработайте анкету обратной связи для вашего продукта (5–7 вопросов) и опишите процесс работы с негативными отзывами.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">09</div>
+      <div>
+        <div class="l-week">Неделя 9</div>
+        <h4>Закрытие проекта и документирование</h4>
+        <p>Почему закрытие — самый недооценённый этап. Как правильно подвести итоги первого запуска. Создание SOP (стандартных операционных процедур) для повторения успеха. База знаний проекта. Ретроспектива: что сработало, что нет, что изменить в следующий раз.</p>
+        <div class="l-hw"><strong>Задание</strong>Проведите ретроспективу своего проекта по методу «Стоп / Старт / Продолжить». Напишите SOP для трёх ключевых процессов вашего бизнеса.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="l-num">10</div>
+      <div>
+        <div class="l-week">Неделя 10</div>
+        <h4>Масштабирование: от первого запуска к системному бизнесу</h4>
+        <p>Признаки того, что проект готов к масштабированию. Модели роста: больше клиентов, выше чек, новые продукты, партнёрства. Автоматизация и делегирование как основа масштаба. Как построить бизнес, который работает без вашего постоянного участия. Дорожная карта на следующие 6 месяцев.</p>
+        <div class="l-hw"><strong>Задание</strong>Составьте план масштабирования вашего проекта на 6 месяцев: 3 конкретные цели, 3 ключевых действия для каждой и метрики успеха.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ ЭТАПЫ ═══ -->
+<div class="wrap">
+  <div class="sec">
+    <p class="sec-eyebrow">Методология</p>
+    <h2 class="sec-h">5 этапов управления проектом</h2>
+    <p class="sec-intro">Классическая PM-методология, интегрированная с работой с мышлением и PR-продвижением. На каждом этапе — три параллельных трека работы.</p>
+  </div>
+
+  <div class="stage-block">
+    <div class="stage-hd">
+      <div class="stage-n">01</div>
+      <div>
+        <div class="stage-title">Инициация</div>
+        <div class="stage-when">Недели 1–2 · Месяц 1</div>
+      </div>
+    </div>
+    <div class="stage-cols">
+      <div class="sc"><div class="sc-title c-main">Управление проектом</div><ul><li>Аудит текущей ситуации и ресурсов</li><li>Определение ниши и бизнес-идеи</li><li>Анализ целевой аудитории и конкурентов</li><li>Формулировка УТП</li><li>Устав проекта: цели, риски, метрики</li><li>Оценка финансовой модели</li></ul></div>
+      <div class="sc"><div class="sc-title c-mind">Работа с мышлением</div><ul><li>Диагностика ограничивающих убеждений</li><li>Прояснение ценностей и истинных целей</li><li>Работа с синдромом самозванца</li><li>Формирование предпринимательской идентичности</li><li>Постановка экологичных и реалистичных целей</li></ul></div>
+      <div class="sc"><div class="sc-title c-promo">Продвижение & PR</div><ul><li>Анализ присутствия в соцсетях</li><li>Определение PR-платформ проекта</li><li>Разработка концепции личного бренда</li><li>Контент-план: первичный прогрев</li><li>Упаковка профиля под нишу</li></ul></div>
+    </div>
+  </div>
+
+  <div class="stage-block">
+    <div class="stage-hd">
+      <div class="stage-n">02</div>
+      <div>
+        <div class="stage-title">Планирование</div>
+        <div class="stage-when">Недели 3–4 · Месяц 1</div>
+      </div>
+    </div>
+    <div class="stage-cols">
+      <div class="sc"><div class="sc-title c-main">Управление проектом</div><ul><li>Детальный план-график по неделям</li><li>Структура продукта / программа курса</li><li>Выбор платформ и инструментов</li><li>Бюджетирование и план продаж</li><li>Определение KPI и метрик успеха</li><li>Формирование команды и распределение ролей</li></ul></div>
+      <div class="sc"><div class="sc-title c-mind">Работа с мышлением</div><ul><li>Работа со страхом провала и перфекционизмом</li><li>Тайм-менеджмент предпринимателя</li><li>Делегирование без тревоги потери контроля</li><li>Укрепление уверенности в продукте и цене</li><li>Психологическая устойчивость при планировании</li></ul></div>
+      <div class="sc"><div class="sc-title c-promo">Продвижение & PR</div><ul><li>PR-стратегия на весь период запуска</li><li>Контент-матрица для соцсетей</li><li>Воронка прогрева аудитории</li><li>Медиа-план и партнёрские активности</li><li>Разработка и публикация лид-магнитов</li></ul></div>
+    </div>
+  </div>
+
+  <div class="stage-block">
+    <div class="stage-hd">
+      <div class="stage-n">03</div>
+      <div>
+        <div class="stage-title">Исполнение</div>
+        <div class="stage-when">Недели 5–8 · Месяц 2</div>
+      </div>
+    </div>
+    <div class="stage-cols">
+      <div class="sc"><div class="sc-title c-main">Управление проектом</div><ul><li>Создание продукта по плану</li><li>Настройка платёжных систем и лендинга</li><li>Управление задачами по Agile/Kanban</li><li>Тестирование на пилотной группе</li><li>Первые продажи и работа с клиентами</li><li>Операционное управление командой</li></ul></div>
+      <div class="sc"><div class="sc-title c-mind">Работа с мышлением</div><ul><li>Работа с прокрастинацией и блоками</li><li>Управление энергией и ресурсным состоянием</li><li>Психология первых продаж и отказов</li><li>Принятие решений в условиях неопределённости</li><li>Мотивация при работе в команде</li></ul></div>
+      <div class="sc"><div class="sc-title c-promo">Продвижение & PR</div><ul><li>Активный прогрев: сторис, эфиры, посты</li><li>Работа с блогерами и СМИ</li><li>Запуск таргетированной рекламы</li><li>Партнёрские запуски и коллаборации</li><li>Первые кейсы и социальные доказательства</li></ul></div>
+    </div>
+  </div>
+
+  <div class="stage-block">
+    <div class="stage-hd">
+      <div class="stage-n">04</div>
+      <div>
+        <div class="stage-title">Мониторинг и контроль</div>
+        <div class="stage-when">Недели 7–9 · Месяц 2–3</div>
+      </div>
+    </div>
+    <div class="stage-cols">
+      <div class="sc"><div class="sc-title c-main">Управление проектом</div><ul><li>Еженедельный анализ KPI и метрик</li><li>Корректировки плана на основе данных</li><li>Управление качеством продукта</li><li>Управление рисками и кризисами</li><li>A/B тестирование офферов</li><li>Управление возражениями клиентов</li></ul></div>
+      <div class="sc"><div class="sc-title c-mind">Работа с мышлением</div><ul><li>Проработка реакции на критику</li><li>Психологическая гибкость и адаптивность</li><li>Сохранение мотивации в середине пути</li><li>Работа с тревожностью в период продаж</li><li>Управление состоянием при высокой нагрузке</li></ul></div>
+      <div class="sc"><div class="sc-title c-promo">Продвижение & PR</div><ul><li>Анализ охватов и конверсий по каналам</li><li>Оптимизация рекламных кампаний</li><li>Работа с отзывами и репутацией</li><li>Использование инфоповодов</li><li>Ретаргетинг на тёплую аудиторию</li></ul></div>
+    </div>
+  </div>
+
+  <div class="stage-block" style="margin-bottom:0">
+    <div class="stage-hd">
+      <div class="stage-n">05</div>
+      <div>
+        <div class="stage-title">Завершение</div>
+        <div class="stage-when">Недели 9–10 · Месяц 3</div>
+      </div>
+    </div>
+    <div class="stage-cols">
+      <div class="sc"><div class="sc-title c-main">Управление проектом</div><ul><li>Финальная аналитика и разбор итогов</li><li>Документирование процессов (SOP)</li><li>Система для следующего запуска</li><li>Стратегия масштабирования</li><li>Передача в операционный режим</li><li>Цели и дорожная карта на 6 месяцев</li></ul></div>
+      <div class="sc"><div class="sc-title c-mind">Работа с мышлением</div><ul><li>Интеграция пройденного пути</li><li>Работа с синдромом достигатора</li><li>Новый уровень предпринимательской идентичности</li><li>Проживание и фиксация результата</li><li>Видение следующего уровня развития</li></ul></div>
+      <div class="sc"><div class="sc-title c-promo">Продвижение & PR</div><ul><li>Сборник кейсов и социальных доказательств</li><li>PR-стратегия для следующего запуска</li><li>База амбассадоров и лояльных клиентов</li><li>Долгосрочная контент-стратегия</li><li>Выход на новые PR-площадки и СМИ</li></ul></div>
+    </div>
+  </div>
+
+</div>
+
+<hr class="divider" style="margin-top:60px">
+
+<!-- ═══ КОМЬЮНИТИ ═══ -->
+<div class="wrap">
+  <div class="sec" style="padding-bottom:60px">
+    <div class="community">
+      <p class="sec-eyebrow" style="margin-bottom:12px">После программы</p>
+      <h3>Сообщество предпринимателей</h3>
+      <p>Среда, в которой продолжается рост. Нетворкинг, коллаборации, совместные проекты и живые встречи — не бонус, а продолжение стратегии.</p>
+      <div class="community-perks">
+        <div class="perk"><div class="perk-dot"></div><p>Закрытый чат</p></div>
+        <div class="perk"><div class="perk-dot"></div><p>Нетворкинг</p></div>
+        <div class="perk"><div class="perk-dot"></div><p>Коллаборации</p></div>
+        <div class="perk"><div class="perk-dot"></div><p>Офлайн-встречи</p></div>
+        <div class="perk"><div class="perk-dot"></div><p>Бизнес-тренинги</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">Бизнес <em>Код</em></div>
+  <div class="foot-copy">© 2025 · Анастасия Висмут · Виктория Александрова</div>
+</footer>
+
+</body>
+</html>
