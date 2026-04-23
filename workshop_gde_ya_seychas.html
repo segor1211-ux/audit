@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Где я сейчас · Анастасия Висмут</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Unbounded:wght@300;400;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #07080c;
+  --deep: #0d0f17;
+  --surface: #131622;
+  --card: #181c2a;
+  --border: rgba(201,168,76,0.15);
+  --border-hover: rgba(201,168,76,0.35);
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.25);
+  --gold-faint: rgba(201,168,76,0.06);
+  --sky: #5b9bd6;
+  --rose: #c96a76;
+  --sage: #7aad8f;
+  --lavender: #9b8fd6;
+  --cream: #f0ece4;
+  --muted: #5a6070;
+  --text: #c8c2b8;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+/* ─── SCREENS ─── */
+.screen {
+  display: none;
+  min-height: 100vh;
+  animation: fadeIn 0.5s ease;
+}
+.screen.active { display: flex; flex-direction: column; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── COVER ─── */
+#screen-cover {
+  position: relative;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px;
+  overflow: hidden;
+}
+
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+}
+.bg-glow-1 {
+  position: absolute; top: -160px; right: -160px;
+  width: 580px; height: 580px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.09) 0%, transparent 65%);
+  pointer-events: none;
+}
+.bg-glow-2 {
+  position: absolute; bottom: -180px; left: 8%;
+  width: 460px; height: 460px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(91,155,214,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cover-content {
+  position: relative; z-index: 2;
+  max-width: 660px;
+}
+
+.eyebrow {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 8px; letter-spacing: 0.45em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeIn 0.6s 0.1s forwards;
+}
+.eyebrow::before { content: '◆'; font-size: 5px; }
+.eyebrow::after { content:''; width:50px; height:1px; background:var(--gold-dim); }
+
+.cover-pretitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-weight: 300;
+  letter-spacing: 0.12em; color: var(--muted);
+  margin-bottom: 10px;
+  opacity: 0; animation: fadeIn 0.6s 0.2s forwards;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 92px);
+  font-weight: 600; line-height: 0.95;
+  color: var(--cream); margin-bottom: 24px;
+  opacity: 0; animation: fadeIn 0.6s 0.3s forwards;
+}
+.cover-title em {
+  font-style: italic; font-weight: 300;
+  background: linear-gradient(135deg, var(--gold), var(--sky));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cover-desc {
+  font-size: 15px; font-weight: 300;
+  color: var(--text); line-height: 1.8;
+  max-width: 500px; margin-bottom: 48px;
+  opacity: 0; animation: fadeIn 0.6s 0.4s forwards;
+}
+.cover-desc strong { color: var(--cream); font-weight: 500; }
+
+.cover-steps {
+  display: flex; gap: 0;
+  border: 1px solid var(--border);
+  max-width: 460px; margin-bottom: 48px;
+  opacity: 0; animation: fadeIn 0.6s 0.5s forwards;
+}
+.cover-step {
+  flex: 1; padding: 16px 18px;
+  border-right: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.cover-step:last-child { border-right: none; }
+.cs-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600;
+  color: var(--gold); line-height: 1; margin-bottom: 3px;
+}
+.cs-label {
+  font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.btn-start {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--gold);
+  color: var(--ink);
+  border: none; cursor: pointer;
+  padding: 18px 36px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  transition: all 0.25s;
+  opacity: 0; animation: fadeIn 0.6s 0.6s forwards;
+}
+.btn-start:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(201,168,76,0.25);
+}
+.btn-start .arrow { font-size: 16px; transition: transform 0.2s; }
+.btn-start:hover .arrow { transform: translateX(4px); }
+
+.cover-author {
+  position: absolute; bottom: 48px; right: 80px; z-index: 2;
+  text-align: right;
+  opacity: 0; animation: fadeIn 0.6s 0.7s forwards;
+}
+.author-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--gold);
+}
+.author-role {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); margin-top: 3px;
+}
+
+/* ─── QUIZ ─── */
+#screen-quiz {
+  padding: 60px 80px 80px;
+  justify-content: flex-start;
+}
+
+.quiz-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+.quiz-back {
+  font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: color 0.2s;
+}
+.quiz-back:hover { color: var(--gold); }
+
+.progress-wrap {
+  display: flex; align-items: center; gap: 16px; flex: 1; max-width: 400px;
+}
+.progress-track {
+  flex: 1; height: 2px;
+  background: rgba(201,168,76,0.1);
+}
+.progress-fill {
+  height: 100%; background: var(--gold);
+  width: 0%; transition: width 0.5s ease;
+}
+.progress-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--gold);
+  min-width: 40px; text-align: right;
+}
+
+.question-wrap { max-width: 700px; }
+
+.q-category {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 8px; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.q-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 400; color: var(--cream);
+  line-height: 1.3; margin-bottom: 8px;
+}
+
+.q-hint {
+  font-size: 13px; color: var(--muted);
+  font-weight: 300; font-style: italic;
+  margin-bottom: 36px;
+}
+
+.options-grid {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.option-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px 24px;
+  cursor: pointer; text-align: left;
+  transition: all 0.2s;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 16px;
+}
+.option-btn::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0; background: var(--gold-faint);
+  transition: width 0.3s;
+}
+.option-btn:hover { border-color: var(--border-hover); }
+.option-btn:hover::before { width: 100%; }
+.option-btn.selected {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
+.option-btn.selected::before { width: 100%; }
+
+.opt-marker {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 9px; color: var(--muted);
+  flex-shrink: 0; transition: all 0.2s;
+  position: relative; z-index: 1;
+}
+.option-btn.selected .opt-marker {
+  background: var(--gold); border-color: var(--gold);
+  color: var(--ink); font-weight: 700;
+}
+.opt-text {
+  font-size: 14px; color: var(--text);
+  font-weight: 300; line-height: 1.5;
+  position: relative; z-index: 1;
+}
+.option-btn.selected .opt-text { color: var(--cream); }
+
+.btn-next {
+  margin-top: 32px;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold); cursor: pointer;
+  padding: 14px 28px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  transition: all 0.25s;
+  opacity: 0; pointer-events: none;
+}
+.btn-next.visible {
+  opacity: 1; pointer-events: all;
+}
+.btn-next:hover {
+  background: var(--gold); color: var(--ink);
+  transform: translateY(-1px);
+}
+
+/* ─── RESULT ─── */
+#screen-result {
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.result-hero {
+  padding: 80px;
+  position: relative; overflow: hidden;
+  min-height: 50vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.result-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--ink) 100%);
+}
+.result-hero-glow {
+  position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  pointer-events: none;
+}
+.result-hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.state-A .result-hero-glow { background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%); }
+.state-A .result-hero::after { background: linear-gradient(90deg, var(--gold), transparent); }
+.state-B .result-hero-glow { background: radial-gradient(circle, rgba(91,155,214,0.12) 0%, transparent 65%); }
+.state-B .result-hero::after { background: linear-gradient(90deg, var(--sky), transparent); }
+.state-C .result-hero-glow { background: radial-gradient(circle, rgba(201,106,118,0.12) 0%, transparent 65%); }
+.state-C .result-hero::after { background: linear-gradient(90deg, var(--rose), transparent); }
+.state-D .result-hero-glow { background: radial-gradient(circle, rgba(155,143,214,0.12) 0%, transparent 65%); }
+.state-D .result-hero::after { background: linear-gradient(90deg, var(--lavender), transparent); }
+
+.result-tag {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 8px; letter-spacing: 0.45em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative; z-index: 2;
+}
+.state-A .result-tag { color: var(--gold); }
+.state-B .result-tag { color: var(--sky); }
+.state-C .result-tag { color: var(--rose); }
+.state-D .result-tag { color: var(--lavender); }
+
+.result-state-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 600; line-height: 1.05;
+  color: var(--cream); margin-bottom: 16px;
+  position: relative; z-index: 2;
+}
+
+.result-state-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 300; font-style: italic;
+  color: var(--muted); max-width: 520px;
+  position: relative; z-index: 2;
+}
+
+.result-body { padding: 64px 80px 80px; display: flex; flex-direction: column; gap: 48px; }
+
+/* WHY BLOCK */
+.why-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 40px 44px;
+  position: relative; overflow: hidden;
+}
+.why-block::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.state-A .why-block::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.state-B .why-block::before { background: linear-gradient(90deg, var(--sky), transparent); }
+.state-C .why-block::before { background: linear-gradient(90deg, var(--rose), transparent); }
+.state-D .why-block::before { background: linear-gradient(90deg, var(--lavender), transparent); }
+
+.block-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 8px; letter-spacing: 0.4em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.state-A .block-label { color: var(--gold); }
+.state-B .block-label { color: var(--sky); }
+.state-C .block-label { color: var(--rose); }
+.state-D .block-label { color: var(--lavender); }
+
+.block-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600;
+  color: var(--cream); margin-bottom: 16px;
+}
+.block-text {
+  font-size: 14px; color: var(--text);
+  font-weight: 300; line-height: 1.85;
+}
+.block-text strong { color: var(--cream); font-weight: 500; }
+
+.mirror-list {
+  margin-top: 20px;
+  display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid rgba(201,168,76,0.08);
+}
+.mirror-item {
+  display: flex; gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  font-size: 13px; color: var(--text); font-weight: 300;
+}
+.mirror-item:last-child { border-bottom: none; }
+.mirror-icon { flex-shrink: 0; margin-top: 1px; }
+.state-A .mirror-icon { color: var(--gold); }
+.state-B .mirror-icon { color: var(--sky); }
+.state-C .mirror-icon { color: var(--rose); }
+.state-D .mirror-icon { color: var(--lavender); }
+
+/* TOOLS */
+.tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.tool-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s;
+}
+.tool-card:hover { border-color: var(--border-hover); }
+
+.tool-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 600;
+  line-height: 1; margin-bottom: 12px;
+  opacity: 0.15;
+}
+.state-A .tool-num { color: var(--gold); }
+.state-B .tool-num { color: var(--sky); }
+.state-C .tool-num { color: var(--rose); }
+.state-D .tool-num { color: var(--lavender); }
+
+.tool-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--cream); margin-bottom: 10px; line-height: 1.2;
+}
+.tool-desc {
+  font-size: 12px; color: var(--muted);
+  font-weight: 300; line-height: 1.7;
+}
+.tool-practice {
+  margin-top: 14px;
+  background: var(--gold-faint);
+  border-left: 2px solid;
+  padding: 10px 14px;
+  font-size: 12px; color: var(--text);
+  font-style: italic; line-height: 1.6;
+}
+.state-A .tool-practice { border-color: var(--gold); }
+.state-B .tool-practice { border-color: var(--sky); }
+.state-C .tool-practice { border-color: var(--rose); }
+.state-D .tool-practice { border-color: var(--lavender); }
+
+/* PLAN */
+.plan-steps { display: flex; flex-direction: column; gap: 0; }
+
+.plan-step {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+  gap: 24px;
+}
+.plan-step:first-child { border-top: 1px solid var(--border); }
+
+.plan-week {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 8px; letter-spacing: 0.3em;
+  text-transform: uppercase; padding-top: 4px;
+}
+.state-A .plan-week { color: var(--gold); }
+.state-B .plan-week { color: var(--sky); }
+.state-C .plan-week { color: var(--rose); }
+.state-D .plan-week { color: var(--lavender); }
+
+.plan-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; font-weight: 600;
+  line-height: 1; opacity: 0.12;
+}
+.state-A .plan-num { color: var(--gold); }
+.state-B .plan-num { color: var(--sky); }
+.state-C .plan-num { color: var(--rose); }
+.state-D .plan-num { color: var(--lavender); }
+
+.plan-body {}
+.plan-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); margin-bottom: 8px;
+}
+.plan-desc {
+  font-size: 13px; color: var(--muted);
+  font-weight: 300; line-height: 1.75;
+}
+.plan-action {
+  margin-top: 12px;
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text);
+}
+.plan-action::before {
+  content: '→';
+  flex-shrink: 0;
+}
+.state-A .plan-action::before { color: var(--gold); }
+.state-B .plan-action::before { color: var(--sky); }
+.state-C .plan-action::before { color: var(--rose); }
+.state-D .plan-action::before { color: var(--lavender); }
+
+/* CTA BLOCK */
+.cta-final {
+  background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(91,155,214,0.04) 100%);
+  border: 1px solid var(--border);
+  padding: 48px 52px;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.cta-final::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--sky), transparent);
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600;
+  color: var(--cream); margin-bottom: 12px;
+}
+.cta-text {
+  font-size: 14px; color: var(--muted);
+  font-weight: 300; line-height: 1.8;
+  max-width: 480px; margin: 0 auto 32px;
+}
+.cta-text strong { color: var(--text); font-weight: 500; }
+
+.btn-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--gold);
+  color: var(--ink); border: none; cursor: pointer;
+  padding: 16px 32px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.btn-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(201,168,76,0.2);
+}
+
+.btn-restart {
+  margin-top: 16px;
+  display: inline-block;
+  font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+  cursor: pointer; transition: color 0.2s;
+  background: none; border: none;
+}
+.btn-restart:hover { color: var(--gold); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  #screen-cover, #screen-quiz, .result-hero, .result-body { padding: 36px 24px; }
+  .cover-steps { flex-wrap: wrap; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .plan-step { grid-template-columns: 1fr; gap: 8px; }
+  .plan-num { display: none; }
+  .quiz-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cover-author { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ SCREEN: COVER ══════════ -->
+<div class="screen active" id="screen-cover">
+  <div class="bg-grid"></div>
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="cover-content">
+    <div class="eyebrow">Воркшоп · Анастасия Висмут</div>
+    <div class="cover-pretitle">Диагностика текущей точки</div>
+    <h1 class="cover-title">Где я<br>сейчас —<br><em>и что делать</em></h1>
+    <p class="cover-desc">
+      Ответь на <strong>8 вопросов</strong> — и получи точное описание своего состояния,
+      психологическое объяснение почему так происходит,
+      и конкретный план с инструментами на следующие 30 дней.
+    </p>
+    <div class="cover-steps">
+      <div class="cover-step">
+        <div class="cs-num">8</div>
+        <div class="cs-label">вопросов</div>
+      </div>
+      <div class="cover-step">
+        <div class="cs-num">4</div>
+        <div class="cs-label">состояния</div>
+      </div>
+      <div class="cover-step">
+        <div class="cs-num">3</div>
+        <div class="cs-label">инструмента</div>
+      </div>
+      <div class="cover-step">
+        <div class="cs-num">30</div>
+        <div class="cs-label">дней план</div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">
+      Начать <span class="arrow">→</span>
+    </button>
+  </div>
+
+  <div class="cover-author">
+    <div class="author-name">Анастасия Висмут</div>
+    <div class="author-role">Психолог · Бизнес Код</div>
+  </div>
+</div>
+
+<!-- ══════════ SCREEN: QUIZ ══════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <div class="quiz-back" onclick="goBack()">← Назад</div>
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">1/8</div>
+    </div>
+  </div>
+
+  <div class="question-wrap" id="questionWrap"></div>
+</div>
+
+<!-- ══════════ SCREEN: RESULT ══════════ -->
+<div class="screen" id="screen-result">
+</div>
+
+<!-- ══════════ DATA & LOGIC ══════════ -->
+<script>
+const questions = [
+  {
+    id: 1,
+    category: 'Энергия и занятость',
+    text: 'Как бы ты описала свой обычный рабочий день?',
+    hint: 'Выбери то, что ближе всего к реальности — не к тому, как хочется',
+    options: [
+      { text: 'Делаю много, устаю сильно, но в конце дня непонятно что именно сдвинулось', score: {A:3, B:0, C:1, D:2} },
+      { text: 'Избегаю начинать — нахожу сто причин отложить важные дела', score: {A:0, B:3, C:1, D:2} },
+      { text: 'Работаю на автопилоте, делаю что надо, но без ощущения смысла', score: {A:1, B:0, C:3, D:2} },
+      { text: 'Больше лежу в усталости, чем работаю — сил физически нет', score: {A:1, B:1, C:1, D:3} },
+    ]
+  },
+  {
+    id: 2,
+    category: 'Деньги и цена',
+    text: 'Что происходит когда ты называешь свою цену клиенту?',
+    hint: 'Та первая реакция внутри — до того как клиент ответил',
+    options: [
+      { text: 'Называю — и сразу жду что скажут «дорого», готовлюсь объяснять', score: {A:3, B:1, C:0, D:1} },
+      { text: 'Часто вообще не доходит до цены — я не начинаю разговор с потенциальным клиентом', score: {A:0, B:3, C:1, D:1} },
+      { text: 'Называю цену, но внутри чувствую пустоту — как будто неважно сколько', score: {A:0, B:1, C:3, D:1} },
+      { text: 'Мне сейчас не до цен — я просто пытаюсь выжить и не сгореть окончательно', score: {A:1, B:0, C:1, D:3} },
+    ]
+  },
+  {
+    id: 3,
+    category: 'Видимость и контент',
+    text: 'Что чаще всего происходит когда ты собираешься снять видео или написать пост о себе?',
+    hint: 'Честно — не как должно быть',
+    options: [
+      { text: 'Пишу, переписываю, выхожу — но потом тревожусь как приняли', score: {A:3, B:0, C:1, D:1} },
+      { text: 'Открываю — и закрываю. Не могу нажать кнопку «опубликовать»', score: {A:1, B:3, C:0, D:1} },
+      { text: 'Пишу технически правильно, но без огня — как по шаблону', score: {A:0, B:0, C:3, D:2} },
+      { text: 'Вообще не открываю — нет сил даже думать об этом', score: {A:0, B:1, C:1, D:3} },
+    ]
+  },
+  {
+    id: 4,
+    category: 'Решения и ответственность',
+    text: 'Как ты принимаешь важные решения в своём деле?',
+    hint: 'Бизнес, цены, партнёрства, клиенты',
+    options: [
+      { text: 'Долго взвешиваю, советуюсь, боюсь ошибиться и потерять', score: {A:3, B:1, C:0, D:1} },
+      { text: 'Откладываю — думаю что «надо ещё подготовиться»', score: {A:1, B:3, C:1, D:0} },
+      { text: 'Принимаю, выполняю — но не чувствую что это моё', score: {A:0, B:0, C:3, D:1} },
+      { text: 'Не принимаю почти ничего — слишком истощена для этого', score: {A:0, B:1, C:1, D:3} },
+    ]
+  },
+  {
+    id: 5,
+    category: 'Отношения с клиентами',
+    text: 'Как ты чувствуешь себя когда клиент недоволен или просит правки?',
+    hint: 'Первая реакция — что происходит внутри',
+    options: [
+      { text: 'Виню себя, переделываю часто бесплатно, лишь бы не было конфликта', score: {A:3, B:1, C:0, D:1} },
+      { text: 'Тревожусь заранее — поэтому берусь за меньше клиентов', score: {A:1, B:3, C:0, D:1} },
+      { text: 'Реагирую ровно, но где-то внутри думаю «зачем всё это вообще»', score: {A:0, B:0, C:3, D:2} },
+      { text: 'Мне сейчас вообще нет сил на клиентов — хочется всё поставить на паузу', score: {A:0, B:1, C:1, D:3} },
+    ]
+  },
+  {
+    id: 6,
+    category: 'Смысл и мотивация',
+    text: 'Когда ты думаешь о своём деле, что чувствуешь чаще всего?',
+    hint: 'Не «что должна чувствовать» — а что реально',
+    options: [
+      { text: 'Тревогу и ответственность — боюсь подвести, не успеть, потерять', score: {A:3, B:0, C:1, D:1} },
+      { text: 'Стыд и сомнение — что я вообще делаю, кто меня слушает', score: {A:1, B:3, C:0, D:1} },
+      { text: 'Пустоту — когда-то горело, сейчас нет, просто делаю', score: {A:0, B:1, C:3, D:2} },
+      { text: 'Полное истощение — даже думать об этом больно', score: {A:1, B:0, C:1, D:3} },
+    ]
+  },
+  {
+    id: 7,
+    category: 'Границы и слово «нет»',
+    text: 'Как тебе даётся слово «нет» — клиентам, коллегам, запросам?',
+    hint: 'Нет в смысле «не могу», «не буду», «не подходит»',
+    options: [
+      { text: 'Сложно — соглашаюсь на неудобное, потом сама расхлёбываю', score: {A:3, B:0, C:1, D:1} },
+      { text: 'Говорю «нет» клиентам — потому что не решаюсь вообще начать работать с ними', score: {A:0, B:3, C:0, D:1} },
+      { text: 'Говорю нет легко, но это не приносит удовлетворения — всё равно пусто', score: {A:0, B:0, C:3, D:2} },
+      { text: 'Мне сейчас сложно что-либо говорить — я в режиме выживания', score: {A:1, B:0, C:1, D:3} },
+    ]
+  },
+  {
+    id: 8,
+    category: 'Рост и результаты',
+    text: 'Что ты чувствуешь когда думаешь о следующем уровне в своём деле?',
+    hint: 'Больше денег, больше клиентов, больший масштаб',
+    options: [
+      { text: 'Хочу — но страшно облажаться или оказаться недостаточно хорошей', score: {A:3, B:1, C:0, D:0} },
+      { text: 'Хочу — но кажется что я не готова, надо сначала что-то доделать', score: {A:1, B:3, C:0, D:0} },
+      { text: 'Не понимаю зачем — мне уже не очень понятно к чему я вообще иду', score: {A:0, B:0, C:3, D:2} },
+      { text: 'Не думаю об этом — слишком устала чтобы мечтать', score: {A:0, B:1, C:1, D:3} },
+    ]
+  },
+];
+
+const states = {
+  A: {
+    name: 'Работаю много — расту мало',
+    sub: 'Ты в постоянном движении. Но движение не всегда равно росту.',
+    accentColor: 'var(--gold)',
+    why: {
+      title: 'Почему так происходит',
+      text: 'Ты в режиме <strong>детской позиции в деньгах и результатах</strong>. Это значит что твои действия направлены не на цель — а на то, чтобы не ошибиться, не потерять, не разочаровать. Ты работаешь много — потому что внутри живёт убеждение: <strong>«чтобы заслужить — нужно ещё больше стараться»</strong>. Это не лень и не неумение. Это психологический механизм который забирает твою энергию и конвертирует её в тревогу вместо результата.',
+      signs: [
+        'Соглашаешься на неудобное — лишь бы не было конфликта',
+        'Объясняешь свою цену вместо того чтобы просто назвать её',
+        'Переделываешь бесплатно — потому что стыдно отказать',
+        'Боишься что «недостаточно хороша» для следующего уровня',
+      ]
+    },
+    tools: [
+      {
+        name: 'Стоп-вопрос перед согласием',
+        desc: 'Прежде чем сказать «да» — пауза и один вопрос. Это помогает выйти из автоматической детской реакции.',
+        practice: '«Я соглашаюсь потому что хочу — или потому что боюсь отказать?» Ответ за 10 секунд.'
+      },
+      {
+        name: 'Цена без объяснений',
+        desc: 'Называешь цену — и молчишь. Без «но можем обсудить». Пауза после цены — это не сигнал снижать. Это просто пауза.',
+        practice: 'Три раза в день произноси свою текущую цену вслух — как факт, не как просьбу.'
+      },
+      {
+        name: 'Аудит недели: где ушла энергия',
+        desc: 'Раз в неделю 10 минут — честный список: что я делала не потому что хотела, а потому что боялась.',
+        practice: 'Выпиши 3 вещи за последнюю неделю, на которые согласилась из страха. Что было бы если бы ты сказала нет?'
+      }
+    ],
+    plan: [
+      {
+        week: 'Неделя 1',
+        title: 'Увидеть паттерн',
+        desc: 'Не менять ничего. Только замечать: когда я соглашаюсь из страха, а когда из выбора.',
+        action: 'Каждый вечер записывать 1 ситуацию за день где включилась детская позиция'
+      },
+      {
+        week: 'Неделя 2–3',
+        title: 'Один новый ответ',
+        desc: 'Выбрать одну зону — цена, или правки, или время — и начать отвечать иначе. Не везде сразу. Только одно.',
+        action: 'Назвать цену трём клиентам и не объяснять её. Зафиксировать что произошло.'
+      },
+      {
+        week: 'Неделя 4',
+        title: 'Закрепить и расширить',
+        desc: 'Посмотреть на результат: что изменилось, что нет. Добавить ещё одну зону.',
+        action: 'Написать себе: «В этом месяце я перестала _____ из страха. И ничего страшного не случилось.»'
+      }
+    ],
+    cta: 'Если узнала себя — приходи на диагностику. Разберём именно твой паттерн и то, что за ним стоит.'
+  },
+
+  B: {
+    name: 'Знаю что надо — и не делаю',
+    sub: 'Ты умная. Ты всё понимаешь. Но между пониманием и действием — пропасть.',
+    accentColor: 'var(--sky)',
+    why: {
+      title: 'Почему так происходит',
+      text: 'Это не прокрастинация и не лень. Это <strong>страх быть увиденной — и отвергнутой</strong>. Где-то внутри живёт убеждение: если я выйду по-настоящему, покажу себя в полный рост — меня увидят и решат что я недостаточно хороша. И этот страх умнее тебя: он всегда найдёт логичное объяснение почему сейчас не время. <strong>«Нужно ещё подготовиться»</strong> — самая умная ловушка детской позиции.',
+      signs: [
+        'Откладываешь эфиры, публикации, запуски — всегда найдётся причина',
+        'Тебе легче помочь другому, чем продвигать себя',
+        'Ты готовишься к готовности — вместо того чтобы просто начать',
+        'Синдром самозванца включается именно когда дело доходит до действия',
+      ]
+    },
+    tools: [
+      {
+        name: 'Минимальное действие',
+        desc: 'Страх питается масштабом. Самый первый шаг должен быть настолько маленьким, чтобы его невозможно было не сделать.',
+        practice: '«Что я могу сделать за 5 минут прямо сейчас?» Не идеально — а просто что-то. Сторис, голосовое, один абзац.'
+      },
+      {
+        name: 'Разделить «готова» и «иду»',
+        desc: 'Ты никогда не будешь готова так, как хочешь. Это нужно принять как факт — и идти не готовой.',
+        practice: 'Напиши: «Я не готова делать ___, И я делаю это сейчас». Оба утверждения — правда одновременно.'
+      },
+      {
+        name: 'Маленькая видимость каждый день',
+        desc: 'Не большой запуск. Один маленький шаг наружу каждый день. Сообщение, сторис, голосовое. Без оценки.',
+        practice: '21 день — каждый день одно маленькое проявление. Не смотреть на реакцию. Просто выйти.'
+      }
+    ],
+    plan: [
+      {
+        week: 'Неделя 1',
+        title: 'Найти самый маленький шаг',
+        desc: 'Не запуск, не эфир — что-то настолько маленькое что нет причины не сделать.',
+        action: 'Каждый день одна сторис или голосовое сообщение. Неидеальное. Живое.'
+      },
+      {
+        week: 'Неделя 2–3',
+        title: 'Немного увеличить',
+        desc: 'Добавить один шаг побольше: пост о себе, анонс, предложение своих услуг одному человеку лично.',
+        action: 'Написать трём людям из своей базы — живым языком: «Я сейчас делаю вот это. Тебе актуально?»'
+      },
+      {
+        week: 'Неделя 4',
+        title: 'Первый публичный шаг',
+        desc: 'Любой формат где ты рассказываешь о своей работе. Пост, эфир, видео. Неидеально — но публично.',
+        action: 'Сделать и не удалять 24 часа. Посмотреть что произошло с миром. (Спойлер: ничего страшного.)'
+      }
+    ],
+    cta: 'Страх видимости не уходит от решения «просто начать». Он уходит когда понимаешь откуда он. Давай разберём это вместе на диагностике.'
+  },
+
+  C: {
+    name: 'Всё есть — а внутри пусто',
+    sub: 'Ты достигла. Ты умеешь. Но где-то потеряла себя в этом.',
+    accentColor: 'var(--rose)',
+    why: {
+      title: 'Почему так происходит',
+      text: 'Это одно из самых тихих и самых болезненных состояний. Ты делаешь всё правильно — но делаешь чужое. Где-то по дороге ты начала <strong>жить в чужом сценарии</strong>: то что «должна» хотеть, то что «правильно», то что «все так делают». И результаты есть. И пустота тоже есть. Потому что <strong>достижения в чужом сценарии не насыщают</strong> — они только подтверждают что ты хорошо сыграла роль.',
+      signs: [
+        'Делаешь правильные вещи — и не чувствуешь ничего от результата',
+        'Тебя мало что по-настоящему зажигает в работе',
+        'Смотришь на других и думаешь «а чего хочу я — непонятно»',
+        'Слово «должна» встречается в твоих мыслях чаще чем «хочу»',
+      ]
+    },
+    tools: [
+      {
+        name: 'Вопрос «моё или должна»',
+        desc: 'Начать отделять свои желания от навязанных. Это требует честности — и времени.',
+        practice: 'Три раза в день: «Это я хочу или я считаю что должна хотеть?» Просто замечать — не менять пока.'
+      },
+      {
+        name: 'Список «когда я живая»',
+        desc: 'Вспомнить моменты когда было настоящее — не обязательное. Это карта к себе.',
+        practice: 'Выпиши 10 моментов за последний год когда ты чувствовала что делаешь что-то своё. Что в них общего?'
+      },
+      {
+        name: 'Один эксперимент в неделю',
+        desc: 'Не перестраивать всё. Просто один маленький шаг в сторону своего — без гарантии что это «правильно».',
+        practice: 'Раз в неделю делать что-то в работе из «хочу» — а не из «надо». Маленькое. Без обязательства продолжать.'
+      }
+    ],
+    plan: [
+      {
+        week: 'Неделя 1',
+        title: 'Найти себя в прошлом',
+        desc: 'Вспомнить — что когда-то было по-настоящему моим. Без оценки — просто зафиксировать.',
+        action: 'Написать: «Когда я делала ___, я чувствовала что живая». Минимум 5 примеров.'
+      },
+      {
+        week: 'Неделя 2–3',
+        title: 'Отделить своё от чужого',
+        desc: 'Посмотреть на текущую работу: что здесь моё, а что я делаю потому что «так надо».',
+        action: 'Выписать всё что делаешь в работе. Напротив каждого: М (моё) или Д (должна). Смотреть на соотношение.'
+      },
+      {
+        week: 'Неделя 4',
+        title: 'Один настоящий шаг',
+        desc: 'Добавить в свою работу хоть что-то своё. Не переделывать всё — просто один настоящий шаг.',
+        action: 'Сделать что-то в своём деле из «хочу» — и посмотреть как на это реагирует аудитория. И как реагируешь ты.'
+      }
+    ],
+    cta: 'Потеря себя — это не диагноз. Это сигнал что пора найтись. На диагностике мы нащупаем где именно ты свернула не туда.'
+  },
+
+  D: {
+    name: 'На грани — сил больше нет',
+    sub: 'Ты отдала слишком много. Осталось слишком мало.',
+    accentColor: 'var(--lavender)',
+    why: {
+      title: 'Почему так происходит',
+      text: 'Выгорание — это не про слабость. Это про то, что ты <strong>слишком долго работала на ручнике</strong>. Тело и психика дают сигнал: так нельзя дальше. И они правы. Чаще всего за выгоранием стоит не «много работала» — а <strong>много работала не своё, не для себя, без права сказать нет</strong>. Это можно изменить. Но не через «взять себя в руки» — а через понимание что происходит и очень маленькие шаги.',
+      signs: [
+        'Даже маленькие задачи требуют огромных усилий',
+        'Нет радости от того что раньше нравилось',
+        'Тело сигналит: сонливость, раздражительность, физическая тяжесть',
+        'Хочется остановить всё — хотя бы ненадолго',
+      ]
+    },
+    tools: [
+      {
+        name: 'Остановка без вины',
+        desc: 'Первый шаг — это не «собраться и сделать». Это позволить себе не делать без ощущения что ты провалилась.',
+        practice: 'Один день — без рабочих задач. Совсем. Не как наказание — как инвестиция. Зафиксировать что произошло.'
+      },
+      {
+        name: 'Минимальный список',
+        desc: 'Пока нет ресурса — сокращаем. Три задачи в день максимум. Не больше. Всё остальное — подождёт.',
+        practice: 'Каждое утро: три задачи. Только три. Остальное — сознательно откладываешь, не забываешь.'
+      },
+      {
+        name: 'Аудит «на что уходит»',
+        desc: 'Не добавлять новое. Сначала убрать то что забирает — клиентов, задачи, обязательства которые не твои.',
+        practice: 'Список всего что делаешь прямо сейчас. Три вещи которые можно убрать без катастрофы. Убрать.'
+      }
+    ],
+    plan: [
+      {
+        week: 'Неделя 1',
+        title: 'Снизить нагрузку',
+        desc: 'Не добавлять ничего нового. Убрать хотя бы одно обязательство которое можно убрать.',
+        action: 'Написать список всего что «должна». Вычеркнуть три пункта которые можно не делать.'
+      },
+      {
+        week: 'Неделя 2–3',
+        title: 'Найти минимум ресурса',
+        desc: 'Найти что восстанавливает — и защитить это время. Не когда будет время. А прямо сейчас.',
+        action: 'Каждый день 30 минут только для себя. Без телефона. Без работы. Это не роскошь — это обязательство.'
+      },
+      {
+        week: 'Неделя 4',
+        title: 'Посмотреть на причину',
+        desc: 'Когда немного восстановится ресурс — честно посмотреть: что привело сюда. Не чтобы себя ругать. Чтобы не вернуться.',
+        action: 'Написать: «Я здесь потому что я слишком долго ___. Больше я не буду ___ без ___».'
+      }
+    ],
+    cta: 'Выгорание — это не конец. Но из него нельзя выйти усилием воли. Нужно понять что именно сломалось. Я помогу разобраться на диагностике.'
+  }
+};
+
+// STATE
+let currentQ = 0;
+let scores = { A: 0, B: 0, C: 0, D: 0 };
+let answered = false;
+
+function startQuiz() {
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  answered = false;
+
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = (currentQ + 1) + '/' + questions.length;
+
+  const wrap = document.getElementById('questionWrap');
+  wrap.innerHTML = `
+    <div class="q-category">${q.category}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="q-hint">${q.hint}</div>
+    <div class="options-grid" id="optGrid">
+      ${q.options.map((opt, i) => `
+        <button class="option-btn" onclick="selectOption(${i})" data-i="${i}">
+          <div class="opt-marker">${String.fromCharCode(65+i)}</div>
+          <div class="opt-text">${opt.text}</div>
+        </button>
+      `).join('')}
+    </div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">
+      ${currentQ < questions.length - 1 ? 'Следующий вопрос →' : 'Узнать результат →'}
+    </button>
+  `;
+}
+
+function selectOption(i) {
+  if (answered) {
+    // allow change
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  }
+
+  const q = questions[currentQ];
+  const opt = q.options[i];
+
+  // remove previous score for this question if re-answering
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-i="${i}"]`).classList.add('selected');
+
+  // store selection
+  questions[currentQ]._selected = i;
+  answered = true;
+
+  const btn = document.getElementById('btnNext');
+  btn.classList.add('visible');
+}
+
+function nextQuestion() {
+  if (!answered) return;
+
+  const q = questions[currentQ];
+  const opt = q.options[q._selected];
+  Object.keys(opt.score).forEach(k => scores[k] += opt.score[k]);
+
+  currentQ++;
+
+  if (currentQ >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function goBack() {
+  if (currentQ === 0) {
+    showScreen('cover');
+  } else {
+    // undo last score
+    const prevQ = questions[currentQ - 1];
+    if (prevQ._selected !== undefined) {
+      const opt = prevQ.options[prevQ._selected];
+      Object.keys(opt.score).forEach(k => scores[k] -= opt.score[k]);
+    }
+    currentQ--;
+    renderQuestion();
+    if (prevQ._selected !== undefined) {
+      answered = true;
+      document.querySelector(`.option-btn[data-i="${prevQ._selected}"]`).classList.add('selected');
+      document.getElementById('btnNext').classList.add('visible');
+    }
+  }
+}
+
+function showResult() {
+  // find dominant state
+  const dominant = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+  const state = states[dominant];
+
+  const resultEl = document.getElementById('screen-result');
+  resultEl.className = 'screen state-' + dominant;
+
+  resultEl.innerHTML = `
+    <div class="result-hero">
+      <div class="bg-grid"></div>
+      <div class="result-hero-glow"></div>
+      <div class="result-tag">Твоё состояние сейчас</div>
+      <div class="result-state-name">${state.name}</div>
+      <div class="result-state-sub">${state.sub}</div>
+    </div>
+
+    <div class="result-body">
+
+      <!-- WHY -->
+      <div class="why-block">
+        <div class="block-label">Почему именно так</div>
+        <div class="block-title">${state.why.title}</div>
+        <div class="block-text">${state.why.text}</div>
+        <div class="mirror-list">
+          ${state.why.signs.map(s => `
+            <div class="mirror-item">
+              <span class="mirror-icon">◆</span>
+              <span>${s}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- TOOLS -->
+      <div>
+        <div class="block-label" style="margin-bottom:20px;">Инструменты для твоего состояния</div>
+        <div class="tools-grid">
+          ${state.tools.map((t, i) => `
+            <div class="tool-card">
+              <div class="tool-num">0${i+1}</div>
+              <div class="tool-name">${t.name}</div>
+              <div class="tool-desc">${t.desc}</div>
+              <div class="tool-practice">${t.practice}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- PLAN -->
+      <div>
+        <div class="block-label" style="margin-bottom:4px;">Твой план на 30 дней</div>
+        <div class="block-title" style="margin-bottom:20px;">Пошагово. Без перегруза.</div>
+        <div class="plan-steps">
+          ${state.plan.map((p, i) => `
+            <div class="plan-step">
+              <div>
+                <div class="plan-week">${p.week}</div>
+                <div class="plan-num">0${i+1}</div>
+              </div>
+              <div class="plan-body">
+                <div class="plan-title">${p.title}</div>
+                <div class="plan-desc">${p.desc}</div>
+                <div class="plan-action">${p.action}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-final">
+        <div class="cta-title">Хочешь разобраться глубже?</div>
+        <div class="cta-text">${state.cta} <strong>Уйдёшь с конкретным пониманием</strong> — что именно держит тебя там где ты сейчас, и что с этим делать.</div>
+        <a class="btn-cta" href="https://t.me/NastyaVismut0" target="_blank">Записаться на диагностику →</a>
+        <br>
+        <button class="btn-restart" onclick="restart()">Пройти заново</button>
+      </div>
+
+    </div>
+  `;
+
+  showScreen('result');
+}
+
+function restart() {
+  currentQ = 0;
+  scores = { A: 0, B: 0, C: 0, D: 0 };
+  answered = false;
+  questions.forEach(q => delete q._selected);
+  showScreen('cover');
+}
+</script>
+</body>
+</html>
