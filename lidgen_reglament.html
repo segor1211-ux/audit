@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Регламент лидгена — Бизнес Код</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0c10;
+    --surface: #161320;
+    --surface2: #1e1a2b;
+    --border: #2d2740;
+    --accent: #c084fc;
+    --accent2: #f472b6;
+    --accent3: #34d399;
+    --warn: #fb923c;
+    --danger: #f87171;
+    --text: #e8e0f4;
+    --muted: #7c6fa0;
+    --tag-bg: #2a1f40;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Onest', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a0933 0%, #0e0c10 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(192,132,252,0.12) 0%, transparent 70%);
+    top: -100px; right: -80px;
+    border-radius: 50%;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--accent);
+    border: 1px solid rgba(192,132,252,0.3);
+    border-radius: 6px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    background: linear-gradient(120deg, #e0c3fc, #c084fc, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+  .header-sub {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .card-accent {
+    border-left: 3px solid var(--accent);
+  }
+  .card-warn {
+    border-left: 3px solid var(--warn);
+    background: rgba(251,146,60,0.06);
+  }
+  .card-danger {
+    border-left: 3px solid var(--danger);
+    background: rgba(248,113,113,0.06);
+  }
+  .card-success {
+    border-left: 3px solid var(--accent3);
+    background: rgba(52,211,153,0.06);
+  }
+
+  .card h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .card p {
+    color: #b3a8cc;
+    font-size: 14px;
+  }
+
+  /* Steps */
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: start;
+  }
+  .step-num {
+    width: 48px; height: 48px;
+    background: var(--tag-bg);
+    border: 1px solid rgba(192,132,252,0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .step-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .step-body h4 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .step-body p {
+    font-size: 14px;
+    color: #b3a8cc;
+    margin-bottom: 8px;
+  }
+
+  /* Script bubble */
+  .script-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    position: relative;
+  }
+  .script-label {
+    font-size: 10px;
+    font-family: 'Unbounded', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .script-text {
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.7;
+  }
+  .script-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Objections table */
+  .objection-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .obj-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  .obj-q { color: var(--muted); margin-bottom: 6px; font-size: 12px; }
+  .obj-a { color: var(--text); }
+
+  /* Tags/pills */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--muted);
+    margin: 3px;
+  }
+  .tag-green {
+    background: rgba(52,211,153,0.1);
+    border-color: rgba(52,211,153,0.3);
+    color: var(--accent3);
+  }
+  .tag-red {
+    background: rgba(248,113,113,0.1);
+    border-color: rgba(248,113,113,0.3);
+    color: var(--danger);
+  }
+
+  /* Разбор переписки */
+  .review-item {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+    align-items: start;
+  }
+  .review-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .icon-ok { background: rgba(52,211,153,0.15); color: var(--accent3); }
+  .icon-bad { background: rgba(248,113,113,0.15); color: var(--danger); }
+  .review-text { font-size: 14px; color: #b3a8cc; }
+  .review-text strong { color: var(--text); }
+
+  /* KPI table */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .kpi-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(120deg, #c084fc, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+  .kpi-label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* Rules list */
+  .rules-list {
+    list-style: none;
+    padding: 0;
+  }
+  .rules-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: #b3a8cc;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list li::before {
+    content: '—';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* CRM table */
+  .crm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .crm-table th {
+    background: var(--surface2);
+    color: var(--muted);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .crm-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: #b3a8cc;
+    vertical-align: top;
+  }
+  .crm-table tr:last-child td { border-bottom: none; }
+
+  /* Highlight box */
+  .highlight {
+    background: linear-gradient(135deg, rgba(192,132,252,0.08), rgba(244,114,182,0.06));
+    border: 1px solid rgba(192,132,252,0.2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .highlight h4 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  /* Divider */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 32px 20px 28px; }
+    h1 { font-size: 20px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .objection-row { grid-template-columns: 1fr; }
+    .container { padding: 28px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Внутренний документ · Бизнес Код</div>
+  <h1>Регламент работы лидгена</h1>
+  <p class="header-sub">Холодный набор на бесплатную диагностику · версия 1.0</p>
+</div>
+
+<div class="container">
+
+  <!-- ЦЕЛЬ -->
+  <div class="section">
+    <div class="section-title">Цель лидгена</div>
+    <div class="highlight">
+      <h4>Одна задача</h4>
+      <p style="color:#b3a8cc;font-size:14px;">Записать человека на <strong style="color:var(--text)">бесплатную диагностику</strong> с экспертом. Не продать. Не объяснить всю систему. Не убедить. Только — записать на звонок.</p>
+    </div>
+    <div class="card card-warn">
+      <h3>⚠ Главная ошибка</h3>
+      <p>Лидген не продаёт курс и не объясняет детали продукта. Как только начинаешь рассказывать «как всё работает» — ты берёшь на себя работу эксперта и теряешь лида. Твоя задача: вызвать интерес → записать → передать.</p>
+    </div>
+  </div>
+
+  <!-- ЦА -->
+  <div class="section">
+    <div class="section-title">Кого ищем</div>
+    
+    <div class="card card-accent">
+      <h3>Портрет лида</h3>
+      <p>Женщина 23–40 лет. Работает офлайн или в найме. Интересуется онлайн-заработком, личным развитием, сменой сферы. Активна в комментариях у блогеров ниши: онлайн-бизнес, саморазвитие, психология, деньги, карьера.</p>
+    </div>
+
+    <div style="margin-top:16px;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;font-family:'Unbounded',sans-serif;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;">Сигналы что человек подходит:</p>
+      <span class="tag tag-green">пишет о желании изменений</span>
+      <span class="tag tag-green">задаёт вопросы про онлайн-работу</span>
+      <span class="tag tag-green">жалуется на работу / доход</span>
+      <span class="tag tag-green">интересуется темой мышления и денег</span>
+      <span class="tag tag-green">активно комментирует блогеров ниши</span>
+    </div>
+
+    <div style="margin-top:12px;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;font-family:'Unbounded',sans-serif;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;">Не наша аудитория:</p>
+      <span class="tag tag-red">уже ведёт онлайн-бизнес</span>
+      <span class="tag tag-red">явный негатив к инфобизнесу</span>
+      <span class="tag tag-red">ищет работу в найме</span>
+      <span class="tag tag-red">мужчины (если эксперт работает только с женщинами)</span>
+    </div>
+  </div>
+
+  <!-- ИСТОЧНИКИ -->
+  <div class="section">
+    <div class="section-title">Где искать лидов</div>
+    <div class="card">
+      <ul class="rules-list">
+        <li>Комментарии под постами блогеров смежных ниш (деньги, онлайн-проекты, женский бизнес, самореализация)</li>
+        <li>Активные участники чатов Telegram — вопросы о смене сферы, первых деньгах онлайн</li>
+        <li>Ответы в сторис у блогеров — люди, которые пишут о своих запросах публично</li>
+        <li>Участники прямых эфиров на смежные темы</li>
+        <li>Личные страницы Instagram — по хэштегам и геолокациям целевых мероприятий</li>
+      </ul>
+    </div>
+    <div class="card card-warn">
+      <h3>⚠ Правило источника</h3>
+      <p>Фиксируй, откуда взял контакт. В отчёте всегда указывай: аккаунт блогера + ссылка на комментарий/пост. Без этого невозможно оценить качество трафика.</p>
+    </div>
+  </div>
+
+  <!-- СКРИПТ -->
+  <div class="section">
+    <div class="section-title">Скрипт переписки · 5 этапов</div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Первое сообщение — зацепка</h4>
+        <p>Цель: вызвать любопытство и получить разрешение рассказать. Не объяснять ничего. Только зацепить и спросить.</p>
+        <div class="script-block">
+          <div class="script-label">Пример сообщения</div>
+          <div class="script-text">Привет 🤝 нашла тебя в комментариях у [имя блогера] — зацепила твоя мысль про [конкретная деталь из комментария].<br><br>Есть кое-что интересное по теме онлайна — могу в двух словах рассказать?</div>
+          <div class="script-note">⚠ Обязательно: конкретная деталь из комментария человека. Без этого сообщение выглядит как массовая рассылка. Никаких «ты меня зацепила» без объяснения чем.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-label">Вариант 2 — через запрос</div>
+          <div class="script-text">Привет! Увидела твой комментарий про [тема] — там ты написала что хочешь [цитата или суть]. У меня есть кое-что точно под этот запрос, поделиться?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Мини-презентация — после согласия</h4>
+        <p>Человек ответил «да» / «расскажи». Теперь — коротко, текстом (не голосовым). Максимум 5–6 строк.</p>
+        <div class="script-block">
+          <div class="script-label">Скрипт сообщения</div>
+          <div class="script-text">Моя знакомая — эксперт в онлайн-запусках, сама зашла в онлайн несколько лет назад и сейчас стабильно делает 500к+/мес.<br><br>Сейчас она открыла несколько мест на бесплатную диагностику — разбирает конкретно под человека: онлайн это вообще твоё, какая ниша подойдёт, с чего начать.<br><br>Без продаж, без воды — просто честный разбор за 1–1,5 часа. Тебе это было бы актуально?</div>
+          <div class="script-note">🚫 НЕ отправляй голосовое на этом этапе. Текст читается в любое время, голосовое требует внимания и раздражает холодных лидов.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Квалификация — до записи</h4>
+        <p>Прежде чем назначать время — убедись что человек реально в целевой аудитории. Один простой вопрос.</p>
+        <div class="script-block">
+          <div class="script-label">Квалифицирующий вопрос</div>
+          <div class="script-text">Скажи, а ты сейчас в офлайне работаешь или уже что-то пробовала в онлайне?</div>
+          <div class="script-note">Если человек уже активно ведёт онлайн-проект — это не наш лид на данном этапе. Вежливо скажи что диагностика больше для тех, кто только заходит.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Запись — конкретное время</h4>
+        <p>Не «когда тебе удобно». Предлагай конкретные слоты. Это создаёт структуру и снижает отвалы.</p>
+        <div class="script-block">
+          <div class="script-label">Скрипт записи</div>
+          <div class="script-text">Отлично, думаю тебе будет полезно 🙌<br><br>Есть время в [день] в [время] или в [день2] в [время2]? Встреча онлайн, по телефону или видеозвонку — как тебе удобнее.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-label">После подтверждения времени</div>
+          <div class="script-text">Записала тебя на [день, время] ✅<br><br>Накануне напомню. И вот канал [имя эксперта] — там можно познакомиться поближе: [ссылка]</div>
+          <div class="script-note">Ссылку на канал даём только после подтверждения записи — не раньше. Так человек идёт туда уже «тёплым».</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Напоминание — за день и за час</h4>
+        <p>Без напоминания 30–40% не приходят. Это обязательный этап, не опциональный.</p>
+        <div class="script-block">
+          <div class="script-label">За день (вечером)</div>
+          <div class="script-text">Привет! Напоминаю — завтра в [время] твоя встреча с [имя эксперта]. Всё ок, будешь?</div>
+        </div>
+        <div class="script-block">
+          <div class="script-label">За 1 час</div>
+          <div class="script-text">Через час созвон 🙌 Готова?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ВОЗРАЖЕНИЯ -->
+  <div class="section">
+    <div class="section-title">Работа с возражениями</div>
+
+    <div class="objection-row">
+      <div class="obj-block">
+        <div class="obj-q">«Это платно?»</div>
+        <div class="obj-a">Нет, диагностика бесплатная. Она сейчас набирает первых клиентов в новый проект, поэтому открыла несколько мест без оплаты. Потом такого не будет.</div>
+      </div>
+      <div class="obj-block">
+        <div class="obj-q">«Потом что-то продадут?»</div>
+        <div class="obj-a">Возможно, она расскажет о вариантах работы с ней — но это твой выбор. Никто тебя ни к чему не обязывает. Диагностика ценная сама по себе.</div>
+      </div>
+    </div>
+    <div class="objection-row">
+      <div class="obj-block">
+        <div class="obj-q">«Нет времени»</div>
+        <div class="obj-a">Понимаю! Можем найти слот когда удобно — утром, вечером, в выходные. Что обычно свободно у тебя?</div>
+      </div>
+      <div class="obj-block">
+        <div class="obj-q">«Не хочу по видео»</div>
+        <div class="obj-a">Без проблем, можно по телефону. Главное — 1,5 часа, чтобы нормально разобрать ситуацию.</div>
+      </div>
+    </div>
+    <div class="objection-row">
+      <div class="obj-block">
+        <div class="obj-q">«Я уже смотрела подобное, не работает»</div>
+        <div class="obj-a">Слышу тебя. Это не курс и не вебинар — это личный разбор конкретно твоей ситуации. Просто попробуй, хуже не будет.</div>
+      </div>
+      <div class="obj-block">
+        <div class="obj-q">«Подумаю»</div>
+        <div class="obj-a">Хорошо! Когда думаешь определиться? Я уточню слоты — их мало, хочу за тобой придержать.</div>
+      </div>
+    </div>
+
+    <div class="card card-danger" style="margin-top:4px;">
+      <h3>🚫 Нельзя при возражениях</h3>
+      <p>Давить, уговаривать, спорить, обесценивать сомнения. Одно возражение = один мягкий ответ. Если человек говорит «нет» второй раз — отпускай и фиксируй как «не дозрел».</p>
+    </div>
+  </div>
+
+  <!-- ПРАВИЛА ГОЛОСОВЫХ -->
+  <div class="section">
+    <div class="section-title">Правила голосовых сообщений</div>
+    <div class="card card-warn">
+      <h3>⚠ Голосовые — только на 3-м и 4-м этапе</h3>
+      <p>Первый контакт и презентацию оффера — только текстом. Голосовое в холодном диалоге воспринимается как вторжение. Его не слушают или слушают без желания.</p>
+    </div>
+    <div class="card">
+      <h3>Если используешь голосовое — правила:</h3>
+      <ul class="rules-list">
+        <li>Максимум 60 секунд. Больше — не слушают до конца</li>
+        <li>Одна мысль на одно голосовое. Не пытайся вместить всё</li>
+        <li>Никаких слов-паразитов: «вообще», «как бы», «ну это», «в общем-то», «получается». Они подрывают доверие</li>
+        <li>Говори уверенно — без интонации «я не уверена, получится ли»</li>
+        <li>После голосового всегда дублируй ключевую мысль текстом одним предложением</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- РАЗБОР ПЕРЕПИСКИ -->
+  <div class="section">
+    <div class="section-title">Разбор примера из практики</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Реальный диалог — что сработало, что можно улучшить</p>
+
+    <div class="card card-success" style="margin-bottom:20px;">
+      <h3>✅ Что работает хорошо</h3>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-ok">✓</div>
+      <div class="review-text"><strong>Источник — комментарии блогера.</strong> Правильный канал. Человек уже в нужном контексте, тема онлайна ему близка.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-ok">✓</div>
+      <div class="review-text"><strong>Предложение встречи голосом по конкретике.</strong> Формат диагностики описан понятно — 1,5 часа, личная встреча, конкретные инструменты.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-ok">✓</div>
+      <div class="review-text"><strong>Гибкость по формату.</strong> Телефон вместо видео — правильная реакция на возражение. Не настаивали, предложили альтернативу.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-ok">✓</div>
+      <div class="review-text"><strong>Конкретный слот.</strong> «Понедельник в 18:00» — правильно. Не «когда удобно», а конкретное предложение.</div>
+    </div>
+
+    <div class="card card-danger" style="margin-top:20px;margin-bottom:16px;">
+      <h3>⚡ Что улучшить</h3>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-bad">✗</div>
+      <div class="review-text"><strong>Голосовое 1:07 как второе сообщение.</strong> Слишком рано и слишком длинно. Холодный человек ещё не готов слушать минуту незнакомки. Этот же текст нужно было написать коротко — 4-5 строк.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-bad">✗</div>
+      <div class="review-text"><strong>«Пару дней назад вообще появилась вот эта вот идея».</strong> Звучит как непроверенный продукт. Убирать из скрипта. Эксперт должен подаваться как состоявшийся специалист, не как «идея».</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-bad">✗</div>
+      <div class="review-text"><strong>Нет квалификации лида.</strong> Сразу предложили встречу, не выяснив запрос человека. Одно уточняющее сообщение сэкономит время и повысит качество лидов.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-bad">✗</div>
+      <div class="review-text"><strong>«Ты меня зацепила почему-то».</strong> Размытая зацепка — нет конкретики. Лучше: «зацепил твой комментарий про [что именно]» — это показывает, что человека заметили, а не просто скопировали шаблон.</div>
+    </div>
+    <div class="review-item">
+      <div class="review-icon icon-bad">✗</div>
+      <div class="review-text"><strong>Ссылка на канал дана в процессе переписки.</strong> Ссылку — только после подтверждения записи. Иначе человек уходит «почитать» и не возвращается.</div>
+    </div>
+  </div>
+
+  <!-- ЗАПРЕЩЕНО -->
+  <div class="section">
+    <div class="section-title">Что запрещено</div>
+    <div class="card card-danger">
+      <ul class="rules-list">
+        <li>Массовые рассылки одинакового текста без персонализации</li>
+        <li>Спам в личку без предварительного касания (комментарий, реакция)</li>
+        <li>Обещания конкретного заработка («выйдешь на 300к за 2 месяца»)</li>
+        <li>Давление и манипуляции: «последнее место», «только для тебя», «сейчас или никогда»</li>
+        <li>Раскрывать стоимость основного продукта до диагностики</li>
+        <li>Звонить без договорённости</li>
+        <li>Добавлять в чаты или рассылки без согласия</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CRM / ФИКСАЦИЯ -->
+  <div class="section">
+    <div class="section-title">Фиксация лидов · отчётность</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Каждый контакт фиксируется в таблице. Без фиксации — не считается.</p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <table class="crm-table">
+        <thead>
+          <tr>
+            <th>Поле</th>
+            <th>Что заполнять</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Имя / ник</td><td>Telegram или Instagram</td></tr>
+          <tr><td>Источник</td><td>Блогер + ссылка на пост/комментарий</td></tr>
+          <tr><td>Дата первого касания</td><td>ДД.ММ.ГГГГ</td></tr>
+          <tr><td>Статус</td><td>Написала / Ответил / Заинтересован / Записан / Не пришёл / Отказ</td></tr>
+          <tr><td>Дата диагностики</td><td>Если записан — дата и время</td></tr>
+          <tr><td>Комментарий</td><td>Возражение, причина отказа, особенности</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KPI -->
+  <div class="section">
+    <div class="section-title">KPI · ориентиры</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">20–30</div>
+        <div class="kpi-label">новых касаний в день (первые сообщения)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">30–40%</div>
+        <div class="kpi-label">ответивших из написанных</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">3–5</div>
+        <div class="kpi-label">записей на диагностику в день</div>
+      </div>
+    </div>
+    <div class="card card-warn" style="margin-top:16px;">
+      <h3>⚠ Конверсия ниже нормы?</h3>
+      <p>Сначала проверяй качество источника и персонализацию первого сообщения — это влияет больше всего. Не увеличивай количество, пока не разобрался с качеством.</p>
+    </div>
+  </div>
+
+  <!-- ИТОГ -->
+  <div class="section">
+    <div class="section-title">Главные принципы · коротко</div>
+    <div class="highlight">
+      <ul class="rules-list">
+        <li>Одна задача: записать на диагностику. Всё остальное — не твоя работа</li>
+        <li>Персонализация в первом сообщении — обязательна</li>
+        <li>Текст вместо голосового на этапе первого контакта</li>
+        <li>Квалифицируй перед записью — не трать слоты эксперта на нецелевых</li>
+        <li>Конкретный слот, а не «когда удобно»</li>
+        <li>Напоминание накануне и за час — всегда</li>
+        <li>Ссылку на канал — только после подтверждения записи</li>
+        <li>Фиксируй каждый контакт — это твой отчёт и твоя защита</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Бизнес Код · Регламент лидгена v1.0 · Внутренний документ
+</div>
+
+</body>
+</html>
