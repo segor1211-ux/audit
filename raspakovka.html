@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Распаковка личности и экспертности · Синтез методов</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bord:       #6B1E2E;
+    --bord-dark:  #4A1020;
+    --bord-mid:   #7E2638;
+    --bord-light: #9B3A50;
+    --bord-pale:  #C4768A;
+    --beige:      #F5EDE0;
+    --beige-dark: #E8D9C4;
+    --beige-mid:  #D4C0A8;
+    --beige-deep: #C4A882;
+    --cream:      #FBF7F2;
+    --ink:        #2C1810;
+    --ink-mid:    #5C3D2E;
+    --ink-light:  #8B6655;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  /* ── HEADER ── */
+  .hd {
+    background: var(--bord-dark);
+    padding: 56px 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hd::before {
+    content:'';
+    position:absolute; right:-60px; top:-60px;
+    width:280px; height:280px; border-radius:50%;
+    background:rgba(255,255,255,.04);
+  }
+  .hd::after {
+    content:'';
+    position:absolute; left:38%; bottom:-50px;
+    width:180px; height:180px; border-radius:50%;
+    background:rgba(255,255,255,.03);
+  }
+  .hd-tag {
+    font-size:10px; letter-spacing:4px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:16px;
+  }
+  .hd h1 {
+    font-family:'Cormorant Garamond',serif; font-weight:300;
+    font-size:48px; line-height:1.1; color:var(--beige);
+  }
+  .hd h1 em { font-style:italic; color:var(--beige-mid); }
+  .hd-rule { width:52px; height:1px; background:var(--bord-pale); margin:22px 0 12px; }
+  .hd-sub {
+    font-size:12px; font-weight:300; letter-spacing:1.5px;
+    color:var(--bord-pale);
+  }
+  .hd-authors {
+    display:flex; gap:24px; margin-top:28px;
+  }
+  .hd-author {
+    font-size:10px; letter-spacing:2px; color:rgba(255,255,255,.35);
+    text-transform:uppercase;
+  }
+  .hd-author span { color:var(--bord-pale); }
+
+  /* ── STICKY PROGRESS ── */
+  .sticky {
+    position:sticky; top:0; z-index:200;
+    background:var(--beige-dark);
+    border-bottom:1px solid var(--beige-mid);
+    padding:14px 64px;
+    display:flex; align-items:center; gap:18px;
+  }
+  .sticky-lbl { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--ink-light); white-space:nowrap; }
+  .pg-track { flex:1; height:3px; background:var(--beige-mid); border-radius:2px; overflow:hidden; }
+  .pg-fill  { height:100%; background:var(--bord); width:0%; transition:width .35s ease; border-radius:2px; }
+  .pg-cnt   { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--bord); min-width:56px; text-align:right; white-space:nowrap; }
+
+  /* ── NAV TABS ── */
+  .tabs {
+    background:var(--beige);
+    border-bottom:1px solid var(--beige-mid);
+    display:flex; gap:0; overflow-x:auto;
+    padding:0 64px;
+  }
+  .tab {
+    padding:14px 22px; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--ink-light); cursor:pointer; border-bottom:2px solid transparent;
+    white-space:nowrap; transition:all .2s; user-select:none;
+  }
+  .tab:hover { color:var(--bord); }
+  .tab.active { color:var(--bord); border-bottom-color:var(--bord); font-weight:500; }
+
+  /* ── MAIN ── */
+  .main { padding:48px 64px 100px; }
+
+  /* ── SECTION BLOCK ── */
+  .section { display:none; }
+  .section.visible { display:block; }
+
+  /* ── BLOCK HEADER ── */
+  .blk-hd {
+    display:flex; align-items:baseline; gap:18px;
+    border-bottom:1.5px solid var(--bord);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .blk-num {
+    font-family:'Cormorant Garamond',serif; font-size:64px; font-weight:300;
+    color:var(--beige-dark); line-height:1; flex-shrink:0;
+  }
+  .blk-info {}
+  .blk-tag { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--bord-pale); margin-bottom:4px; }
+  .blk-title { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:400; color:var(--bord-dark); }
+  .blk-sub { font-size:12px; color:var(--ink-light); margin-top:3px; font-style:italic; }
+
+  /* ── CARD ── */
+  .card {
+    background:#fff; border:1px solid var(--beige-dark);
+    border-radius:2px; margin-bottom:10px;
+    transition:box-shadow .2s;
+  }
+  .card:hover { box-shadow:4px 4px 0 var(--beige-dark); }
+
+  .card-hd {
+    display:flex; align-items:center; gap:14px;
+    padding:14px 20px; cursor:pointer; user-select:none;
+  }
+  .card-icon { font-size:17px; flex-shrink:0; width:26px; text-align:center; }
+  .card-title { font-size:13px; font-weight:400; color:var(--ink); flex:1; }
+  .card-badge {
+    font-size:9px; padding:3px 9px; border-radius:20px;
+    font-weight:500; letter-spacing:.5px; flex-shrink:0;
+  }
+  .b-origin  { background:var(--bord-dark); color:var(--beige); }
+  .b-trial   { background:var(--bord); color:var(--beige); }
+  .b-trans   { background:var(--bord-mid); color:var(--beige); }
+  .b-expert  { background:var(--beige-deep); color:var(--ink); }
+  .b-product { background:var(--ink); color:var(--beige); }
+
+  .card-arr {
+    font-size:16px; color:var(--bord-pale);
+    transition:transform .22s; flex-shrink:0;
+  }
+  .card.open .card-arr { transform:rotate(180deg); }
+
+  .card-body {
+    display:none; padding:0 20px 20px;
+    border-top:1px solid var(--beige-dark);
+  }
+  .card.open .card-body { display:block; }
+
+  /* ── QUESTION LIST ── */
+  .q-sect { margin-top:16px; }
+  .q-sect-ttl {
+    font-size:9px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:8px; margin-top:14px;
+  }
+  .qi {
+    display:flex; align-items:flex-start; gap:11px;
+    padding:10px 0; border-bottom:1px solid var(--beige);
+  }
+  .qi:last-child { border-bottom:none; }
+
+  .qi-num {
+    font-family:'Cormorant Garamond',serif;
+    font-size:15px; font-weight:600; color:var(--bord-pale);
+    flex-shrink:0; width:22px; margin-top:1px;
+  }
+
+  .qi input[type=checkbox] {
+    appearance:none; -webkit-appearance:none;
+    width:15px; height:15px; border:1.5px solid var(--beige-deep);
+    border-radius:2px; flex-shrink:0; margin-top:3px;
+    cursor:pointer; position:relative; transition:all .18s; background:#fff;
+  }
+  .qi input:checked { background:var(--bord); border-color:var(--bord); }
+  .qi input:checked::after {
+    content:'✓'; position:absolute; top:-1px; left:2px;
+    font-size:10px; color:var(--beige); font-weight:bold;
+  }
+
+  .qi-content { flex:1; }
+  .qi label {
+    font-size:13px; color:var(--ink-mid); cursor:pointer;
+    line-height:1.55; display:block; font-weight:400;
+  }
+  .qi-hint {
+    font-size:11px; color:var(--ink-light); margin-top:4px;
+    font-style:italic; line-height:1.5;
+  }
+  .qi-hint::before { content:'↳  '; color:var(--bord-pale); }
+
+  /* ── QUOTE BLOCK ── */
+  .quote {
+    border-left:2px solid var(--bord-pale);
+    padding:14px 20px;
+    background:var(--beige);
+    margin:20px 0;
+    border-radius:0 2px 2px 0;
+  }
+  .quote p {
+    font-family:'Cormorant Garamond',serif;
+    font-size:17px; font-style:italic; color:var(--bord-dark);
+    line-height:1.6;
+  }
+  .quote-author {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bord-pale); margin-top:8px;
+  }
+
+  /* ── RULES ── */
+  .rules {
+    background:#fff; border:1px solid var(--beige-dark);
+    border-radius:2px; padding:28px 28px 20px; margin-top:24px;
+  }
+  .rules-ttl {
+    font-family:'Cormorant Garamond',serif;
+    font-size:18px; color:var(--bord-dark);
+    margin-bottom:20px; padding-bottom:12px;
+    border-bottom:1px solid var(--beige-mid);
+  }
+  .rule {
+    display:flex; gap:18px; padding:12px 0;
+    border-bottom:1px solid var(--beige);
+  }
+  .rule:last-child { border-bottom:none; }
+  .rule-n {
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px; font-weight:300; color:var(--beige-mid);
+    flex-shrink:0; line-height:1;
+  }
+  .rule-t { font-size:12.5px; color:var(--ink-mid); line-height:1.65; padding-top:4px; }
+  .rule-t strong { color:var(--bord-dark); font-weight:500; }
+
+  /* ── INTRO CARD ── */
+  .intro-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    margin-bottom:28px;
+  }
+  .intro-tile {
+    background:#fff; border:1px solid var(--beige-dark);
+    border-radius:2px; padding:18px 20px;
+  }
+  .intro-tile-icon { font-size:20px; margin-bottom:8px; }
+  .intro-tile-ttl {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:6px;
+  }
+  .intro-tile-txt { font-size:12px; color:var(--ink-mid); line-height:1.65; }
+
+  /* ── ACT LABEL ── */
+  .act-label {
+    display:inline-block;
+    font-size:9px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bord-pale); background:var(--beige);
+    border:1px solid var(--beige-mid);
+    padding:4px 12px; border-radius:20px; margin-bottom:16px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align:center; padding:24px;
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--beige-mid); border-top:1px solid var(--beige-dark);
+  }
+
+  @media (max-width:700px) {
+    .hd { padding:40px 24px 36px; }
+    .hd h1 { font-size:34px; }
+    .sticky { padding:12px 24px; }
+    .tabs { padding:0 16px; }
+    .main { padding:32px 24px 80px; }
+    .blk-num { font-size:44px; }
+    .intro-grid { grid-template-columns:1fr; }
+    .hd-authors { flex-direction:column; gap:8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<div class="hd">
+  <div class="hd-tag">Инструмент · Продюсер / Маркетолог</div>
+  <h1>Распаковка<br><em>личности и экспертности</em></h1>
+  <div class="hd-rule"></div>
+  <div class="hd-sub">Авторский синтез · 25 вопросов · 5 блоков</div>
+  <div class="hd-authors">
+    <div class="hd-author">Метод <span>Ангелины Слободнюк</span></div>
+    <div class="hd-author">Кинематографическая структура <span>Марии Ангамовой</span></div>
+  </div>
+</div>
+
+<!-- ══════════════ STICKY PROGRESS ══════════════ -->
+<div class="sticky">
+  <div class="sticky-lbl">Прогресс</div>
+  <div class="pg-track"><div class="pg-fill" id="pgFill"></div></div>
+  <div class="pg-cnt" id="pgCnt">0 / 25</div>
+</div>
+
+<!-- ══════════════ TABS ══════════════ -->
+<div class="tabs">
+  <div class="tab active" data-tab="intro">О методе</div>
+  <div class="tab" data-tab="origin">Происхождение</div>
+  <div class="tab" data-tab="trial">Испытание</div>
+  <div class="tab" data-tab="trans">Трансформация</div>
+  <div class="tab" data-tab="expert">Экспертность</div>
+  <div class="tab" data-tab="product">Продукт</div>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════ TAB 0: О МЕТОДЕ ══════════════ -->
+  <div class="section visible" id="sec-intro">
+
+    <div class="blk-hd">
+      <div class="blk-num">00</div>
+      <div class="blk-info">
+        <div class="blk-tag">Введение</div>
+        <div class="blk-title">Как работать с этим документом</div>
+        <div class="blk-sub">Прочитай перед началом. Это не анкета — это диалог.</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>Мы не придумываем личный бренд — мы открываем то, что уже было написано. Твоя история, боль и сила — это то, чего нет ни у кого на рынке.</p>
+      <div class="quote-author">Синтез методов · Слободнюк + Ангамова</div>
+    </div>
+
+    <div class="intro-grid">
+      <div class="intro-tile">
+        <div class="intro-tile-icon">🎯</div>
+        <div class="intro-tile-ttl">Цель распаковки</div>
+        <div class="intro-tile-txt">Не «красивые формулировки», а живая настоящая история. Из неё строится: сценарий, позиционирование, контент, оффер.</div>
+      </div>
+      <div class="intro-tile">
+        <div class="intro-tile-icon">💬</div>
+        <div class="intro-tile-ttl">Формат</div>
+        <div class="intro-tile-txt">Доверительный разговор, не допрос. Задавай только те вопросы, которые подходят конкретному человеку.</div>
+      </div>
+      <div class="intro-tile">
+        <div class="intro-tile-icon">🎬</div>
+        <div class="intro-tile-ttl">Структура 3 актов</div>
+        <div class="intro-tile-txt">Происхождение → Испытание → Трансформация. Как кино: нужны все три, иначе история не работает.</div>
+      </div>
+      <div class="intro-tile">
+        <div class="intro-tile-icon">🔑</div>
+        <div class="intro-tile-ttl">Главное правило</div>
+        <div class="intro-tile-txt">Иди глубже там, где чувствуешь отклик. Не переходи к следующему вопросу — выстраивай живой диалог.</div>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rules-ttl">Четыре принципа проведения</div>
+      <div class="rule">
+        <div class="rule-n">01</div>
+        <div class="rule-t"><strong>Начни мягко.</strong> Расположи человека. Объясни, зачем это нужно — для создания уникального контента, не ради анкеты.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-n">02</div>
+        <div class="rule-t"><strong>Не спрашивай то, что можешь узнать сам.</strong> Изучи блог, продукт, публичные материалы заранее.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-n">03</div>
+        <div class="rule-t"><strong>Если голос дрожит — не останавливай.</strong> Это самый сильный материал. Пауза и молчание — тоже ответ.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-n">04</div>
+        <div class="rule-t"><strong>Ты не только продюсер.</strong> В этом интервью ты — опора, профессионал и немного психолог.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB 1: ПРОИСХОЖДЕНИЕ ══════════════ -->
+  <div class="section" id="sec-origin">
+
+    <div class="blk-hd">
+      <div class="blk-num">01</div>
+      <div class="blk-info">
+        <div class="blk-tag">Акт I · Личность</div>
+        <div class="blk-title">Происхождение</div>
+        <div class="blk-sub">Кто ты и откуда. Мир, который тебя сформировал.</div>
+      </div>
+    </div>
+
+    <div class="act-label">🌱 АКТ I — Начало истории</div>
+
+    <div class="quote">
+      <p>Спроси не «где ты родился» — а «каким был твой мир». Атмосфера важнее биографии.</p>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🏡</div>
+        <div class="card-title">Детство и семья</div>
+        <span class="card-badge b-origin">Корни</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">1</div>
+            <input type="checkbox" id="o1">
+            <div class="qi-content">
+              <label for="o1">Где ты вырос и каким был этот мир?</label>
+              <div class="qi-hint">Не адрес — а атмосфера. Что ты чувствовал, просыпаясь там каждое утро? Был ли это мир любви или мир борьбы?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">2</div>
+            <input type="checkbox" id="o2">
+            <div class="qi-content">
+              <label for="o2">Расскажи о своей семье — не биографию, а ощущение.</label>
+              <div class="qi-hint">Какой была атмосфера дома? Что было негласным законом? Нужно ли было заслуживать любовь?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🧒</div>
+        <div class="card-title">Внутренний ребёнок</div>
+        <span class="card-badge b-origin">Характер</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">3</div>
+            <input type="checkbox" id="o3">
+            <div class="qi-content">
+              <label for="o3">Кем ты был в детстве — как сам себя помнишь?</label>
+              <div class="qi-hint">Не каким тебя видели другие, а ты сам внутри. Что тебя зажигало до состояния, когда забываешь о времени?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">4</div>
+            <input type="checkbox" id="o4">
+            <div class="qi-content">
+              <label for="o4">3 ключевых момента, которые сделали тебя тем, кто ты есть.</label>
+              <div class="qi-hint">Не объясняй — просто расскажи, что произошло. Три коротких флэшбека: сцена, образ, эмоция.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">⚖️</div>
+        <div class="card-title">Сильные и слабые стороны</div>
+        <span class="card-badge b-origin">Характер</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">5</div>
+            <input type="checkbox" id="o5">
+            <div class="qi-content">
+              <label for="o5">Выдели 3 сильные и 3 слабые стороны.</label>
+              <div class="qi-hint">Как сильные стороны проявляются в жизни и работе? Хочешь работать над слабыми — почему? Как они мешают?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB 2: ИСПЫТАНИЕ ══════════════ -->
+  <div class="section" id="sec-trial">
+
+    <div class="blk-hd">
+      <div class="blk-num">02</div>
+      <div class="blk-info">
+        <div class="blk-tag">Акт II · Антагонист</div>
+        <div class="blk-title">Испытание</div>
+        <div class="blk-sub">Боль, потери, предательства. Кризис как точка роста.</div>
+      </div>
+    </div>
+
+    <div class="act-label">🔥 АКТ II — Самая тёмная точка фильма</div>
+
+    <div class="quote">
+      <p>Это центр истории. Без антагониста нет драмы, без боли нет доверия аудитории. Иди сюда бережно, но не обходи стороной.</p>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🌑</div>
+        <div class="card-title">Самый тяжёлый период</div>
+        <span class="card-badge b-trial">Кризис</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">6</div>
+            <input type="checkbox" id="t1">
+            <div class="qi-content">
+              <label for="t1">Что было самым тяжёлым периодом в твоей жизни?</label>
+              <div class="qi-hint">Расскажи одну историю полностью — с начала до конца. Если голос дрожит — не останавливайся.</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">7</div>
+            <input type="checkbox" id="t2">
+            <div class="qi-content">
+              <label for="t2">Был ли момент, когда ты был готов всё бросить?</label>
+              <div class="qi-hint">Что происходило внутри? Какие слова нашёптывал внутренний голос? Это самая тёмная точка — она обязательна.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🚧</div>
+        <div class="card-title">Ограничения и среда</div>
+        <span class="card-badge b-trial">Антагонист</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">8</div>
+            <input type="checkbox" id="t3">
+            <div class="qi-content">
+              <label for="t3">Какая среда или система тебя ограничивала?</label>
+              <div class="qi-hint">Семья, общество, финансы, страна. Что тебе говорили: «невозможно» или «не для таких как ты»?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">9</div>
+            <input type="checkbox" id="t4">
+            <div class="qi-content">
+              <label for="t4">Была ли история предательства или настоящей боли от человека?</label>
+              <div class="qi-hint">Не нужно называть имена. Опиши ситуацию честно — что это изменило в тебе?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">💔</div>
+        <div class="card-title">Провалы и ошибки</div>
+        <span class="card-badge b-trial">Уроки</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">10</div>
+            <input type="checkbox" id="t5">
+            <div class="qi-content">
+              <label for="t5">Топ 3 провала или ошибки — в работе или жизни.</label>
+              <div class="qi-hint">Поддерживали ли близкие в трудные периоды? Всегда ли верили в тебя?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB 3: ТРАНСФОРМАЦИЯ ══════════════ -->
+  <div class="section" id="sec-trans">
+
+    <div class="blk-hd">
+      <div class="blk-num">03</div>
+      <div class="blk-info">
+        <div class="blk-tag">Акт III · Герой сегодня</div>
+        <div class="blk-title">Трансформация</div>
+        <div class="blk-sub">Кем ты стал. Миссия. Что несёшь людям.</div>
+      </div>
+    </div>
+
+    <div class="act-label">⚡ АКТ III — Герой вышел другим</div>
+
+    <div class="quote">
+      <p>Разрыв между «кем был» и «кем стал» — это и есть позиционирование. Чем больше контраст, тем сильнее история.</p>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🦋</div>
+        <div class="card-title">Переломный момент</div>
+        <span class="card-badge b-trans">Поворот</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">11</div>
+            <input type="checkbox" id="tr1">
+            <div class="qi-content">
+              <label for="tr1">Кем ты был раньше — и кем стал? Сформулируй одним предложением.</label>
+              <div class="qi-hint">Пауза перед ответом. Два образа рядом: старая и новая версия себя. Это самая важная фраза всей распаковки.</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">12</div>
+            <input type="checkbox" id="tr2">
+            <div class="qi-content">
+              <label for="tr2">Опиши конкретный момент, после которого ты стал другим.</label>
+              <div class="qi-hint">Где был? Что произошло? Что решил? Говори медленно — мы должны оказаться там вместе с тобой.</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">13</div>
+            <input type="checkbox" id="tr3">
+            <div class="qi-content">
+              <label for="tr3">Что ты отпустил, чтобы стать тем, кто ты есть сейчас?</label>
+              <div class="qi-hint">Какое новое убеждение пришло на место старого? Что ты знаешь теперь — чего не знал тогда?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🧭</div>
+        <div class="card-title">Ценности и миссия</div>
+        <span class="card-badge b-trans">Смыслы</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">14</div>
+            <input type="checkbox" id="tr4">
+            <div class="qi-content">
+              <label for="tr4">Топ-3 ценности по жизни. Твоё главное правило.</label>
+              <div class="qi-hint">Девиз жизни и работы — фраза, цитата или строчка, которой руководствуешься каждый день.</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">15</div>
+            <input type="checkbox" id="tr5">
+            <div class="qi-content">
+              <label for="tr5">Кому ты хочешь помочь — опиши этого человека максимально конкретно.</label>
+              <div class="qi-hint">Кто он? Где находится сейчас? Что ты хочешь, чтобы люди почувствовали после общения с тобой?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB 4: ЭКСПЕРТНОСТЬ ══════════════ -->
+  <div class="section" id="sec-expert">
+
+    <div class="blk-hd">
+      <div class="blk-num">04</div>
+      <div class="blk-info">
+        <div class="blk-tag">Профессиональный профиль</div>
+        <div class="blk-title">Экспертность</div>
+        <div class="blk-sub">В чём твоя уникальность. За что к тебе приходят.</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">💎</div>
+        <div class="card-title">Суперсила</div>
+        <span class="card-badge b-expert">Уникальность</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">16</div>
+            <input type="checkbox" id="e1">
+            <div class="qi-content">
+              <label for="e1">В чём твоя главная экспертность? В какой теме ты развит(а) больше других?</label>
+              <div class="qi-hint">За каким советом к тебе чаще всего обращаются? В чём люди видят твою суперсилу?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">17</div>
+            <input type="checkbox" id="e2">
+            <div class="qi-content">
+              <label for="e2">Что ты умеешь делать хорошо и получаешь от этого кайф? Назови 4–6 пунктов.</label>
+              <div class="qi-hint">Быстрый ответ, не думай долго. Что из этого уже приносит деньги — или могло бы?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🧱</div>
+        <div class="card-title">Страхи и масштаб</div>
+        <span class="card-badge b-expert">Рост</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">18</div>
+            <input type="checkbox" id="e3">
+            <div class="qi-content">
+              <label for="e3">Какие мысли или страхи мешают тебе масштабироваться и зарабатывать больше?</label>
+              <div class="qi-hint">Что тебя останавливает? Какое одно действие дало бы возможность зарабатывать больше?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">19</div>
+            <input type="checkbox" id="e4">
+            <div class="qi-content">
+              <label for="e4">Если бы ты попал(а) на обложку бизнес-журнала — что написали бы о тебе?</label>
+              <div class="qi-hint">Какие сильные фразы? Для кого был бы интересен этот журнал? Кто его читал?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">📚</div>
+        <div class="card-title">Личный результат и развитие</div>
+        <span class="card-badge b-expert">Доказательства</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">20</div>
+            <input type="checkbox" id="e5">
+            <div class="qi-content">
+              <label for="e5">Проходишь ли сам(а) обучения? Как занимаешься саморазвитием?</label>
+              <div class="qi-hint">Расскажи о личном результате в своей теме. Как твоя экспертность изменила твою собственную жизнь?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB 5: ПРОДУКТ ══════════════ -->
+  <div class="section" id="sec-product">
+
+    <div class="blk-hd">
+      <div class="blk-num">05</div>
+      <div class="blk-info">
+        <div class="blk-tag">Продукт</div>
+        <div class="blk-title">Оффер и запуск</div>
+        <div class="blk-sub">Задавай только те вопросы, которые не можешь узнать самостоятельно.</div>
+      </div>
+    </div>
+
+    <!-- Если продукта нет -->
+    <div class="q-sect-ttl" style="margin-bottom:12px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--bord-pale);">Если продукта ещё нет</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🌱</div>
+        <div class="card-title">Создание продукта с нуля</div>
+        <span class="card-badge b-product">Старт</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">21</div>
+            <input type="checkbox" id="p1">
+            <div class="qi-content">
+              <label for="p1">Какой инфопродукт ты хотел(а) бы создать и почему именно эта тема?</label>
+              <div class="qi-hint">В чём была бы главная уникальность? Почему людям нужно прийти именно к тебе?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">22</div>
+            <input type="checkbox" id="p2">
+            <div class="qi-content">
+              <label for="p2">Ведёшь ли сторис регулярно? Что чаще всего пишут подписчики?</label>
+              <div class="qi-hint">Насколько активна аудитория? Какие темы взрывали охват?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Если продукт есть -->
+    <div class="q-sect-ttl" style="margin:20px 0 12px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--bord-pale);">Если продукт уже есть</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">История и цифры продукта</div>
+        <span class="card-badge b-product">Запуск</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">23</div>
+            <input type="checkbox" id="p3">
+            <div class="qi-content">
+              <label for="p3">История создания продукта. Почему именно эта тема?</label>
+              <div class="qi-hint">Выбор был случайным или после анализа? В чём уникальность? Как твоя жизнь отражает результат от продукта?</div>
+            </div>
+          </div>
+          <div class="qi">
+            <div class="qi-num">24</div>
+            <input type="checkbox" id="p4">
+            <div class="qi-content">
+              <label for="p4">Сколько было запусков? Какие результаты по выручке?</label>
+              <div class="qi-hint">Главные возражения — почему не покупали? Была ли база учеников и их результатов?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-hd">
+        <div class="card-icon">❤️</div>
+        <div class="card-title">Вовлечённость и результаты учеников</div>
+        <span class="card-badge b-product">Доверие</span>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="q-sect">
+          <div class="qi">
+            <div class="qi-num">25</div>
+            <input type="checkbox" id="p5">
+            <div class="qi-content">
+              <label for="p5">Что ты чувствуешь, когда видишь результаты учеников?</label>
+              <div class="qi-hint">Насколько хочешь быть вовлечён(а): созвоны, встречи? На какие сферы жизни влияет продукт помимо основной функции?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:28px;">
+      <p>Если всё прошло хорошо — собеседник не устанет, а будет благодарен: он узнал много нового о себе.</p>
+      <div class="quote-author">Ангелина Слободнюк</div>
+    </div>
+
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">Распаковка личности и экспертности · Синтез методов Слободнюк + Ангамова · 2026</div>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+      tab.classList.add('active');
+      document.getElementById('sec-' + tab.dataset.tab).classList.add('visible');
+    });
+  });
+
+  // Cards
+  function toggleCard(card) {
+    card.classList.toggle('open');
+  }
+
+  // Stop checkbox from toggling card
+  document.addEventListener('click', e => {
+    if (e.target.type === 'checkbox') e.stopPropagation();
+  }, true);
+
+  // Progress
+  function updateProgress() {
+    const all = document.querySelectorAll('input[type=checkbox]');
+    const checked = document.querySelectorAll('input[type=checkbox]:checked');
+    const pct = all.length ? (checked.length / all.length * 100) : 0;
+    document.getElementById('pgFill').style.width = pct + '%';
+    document.getElementById('pgCnt').textContent = checked.length + ' / ' + all.length;
+  }
+
+  document.addEventListener('change', updateProgress);
+  updateProgress();
+</script>
+</body>
+</html>
