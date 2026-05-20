@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Упаковка блога · Мария Шумилова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bord:       #6B1E2E;
+    --bord-dark:  #4A1020;
+    --bord-mid:   #7E2638;
+    --bord-light: #9B3A50;
+    --bord-pale:  #C4768A;
+    --beige:      #F5EDE0;
+    --beige-dark: #E8D9C4;
+    --beige-mid:  #D4C0A8;
+    --beige-deep: #C4A882;
+    --cream:      #FBF7F2;
+    --ink:        #2C1810;
+    --ink-mid:    #5C3D2E;
+    --ink-light:  #8B6655;
+    --gold:       #C49A72;
+    --gold-dark:  #8B5E3C;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  /* ── HEADER ── */
+  .hd {
+    background: var(--bord-dark);
+    padding: 56px 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hd::before {
+    content:'';
+    position:absolute; right:-60px; top:-60px;
+    width:300px; height:300px; border-radius:50%;
+    background:rgba(255,255,255,.04);
+  }
+  .hd::after {
+    content:'';
+    position:absolute; left:40%; bottom:-60px;
+    width:200px; height:200px; border-radius:50%;
+    background:rgba(255,255,255,.03);
+  }
+  .hd-eyebrow {
+    font-size:10px; letter-spacing:4px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:16px;
+  }
+  .hd h1 {
+    font-family:'Cormorant Garamond',serif; font-weight:300;
+    font-size:52px; line-height:1.08; color:var(--beige);
+  }
+  .hd h1 em { font-style:italic; color:var(--beige-mid); }
+  .hd-rule { width:52px; height:1px; background:var(--bord-pale); margin:22px 0 12px; }
+  .hd-sub {
+    font-size:12px; font-weight:300; letter-spacing:1.5px;
+    color:var(--bord-pale);
+  }
+  .hd-meta {
+    display:flex; gap:28px; margin-top:28px; flex-wrap:wrap;
+  }
+  .hd-pill {
+    font-size:10px; letter-spacing:2px; color:rgba(255,255,255,.35);
+    text-transform:uppercase;
+  }
+  .hd-pill span { color:var(--bord-pale); }
+
+  /* ── STICKY NAV ── */
+  .sticky {
+    position:sticky; top:0; z-index:200;
+    background:var(--beige-dark);
+    border-bottom:1px solid var(--beige-mid);
+    padding:0 64px;
+    display:flex; align-items:stretch; gap:0;
+    overflow-x:auto;
+  }
+  .tab {
+    padding:15px 22px; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--ink-light); cursor:pointer; border-bottom:2px solid transparent;
+    white-space:nowrap; transition:all .2s; user-select:none; flex-shrink:0;
+  }
+  .tab:hover { color:var(--bord); }
+  .tab.active { color:var(--bord); border-bottom-color:var(--bord); font-weight:500; }
+
+  /* ── MAIN ── */
+  .main { padding:52px 64px 100px; }
+
+  .section { display:none; }
+  .section.visible { display:block; }
+
+  /* ── BLOCK HEADER ── */
+  .blk-hd {
+    display:flex; align-items:baseline; gap:18px;
+    border-bottom:1.5px solid var(--bord);
+    padding-bottom:14px; margin-bottom:32px;
+  }
+  .blk-num {
+    font-family:'Cormorant Garamond',serif; font-size:64px; font-weight:300;
+    color:var(--beige-dark); line-height:1; flex-shrink:0;
+  }
+  .blk-info {}
+  .blk-tag { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--bord-pale); margin-bottom:4px; }
+  .blk-title { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:400; color:var(--bord-dark); }
+  .blk-sub { font-size:12px; color:var(--ink-light); margin-top:4px; font-style:italic; }
+
+  /* ── QUOTE ── */
+  .quote {
+    border-left:2px solid var(--bord-pale);
+    padding:14px 20px;
+    background:var(--beige);
+    margin:0 0 28px;
+    border-radius:0 2px 2px 0;
+  }
+  .quote p {
+    font-family:'Cormorant Garamond',serif;
+    font-size:18px; font-style:italic; color:var(--bord-dark);
+    line-height:1.65;
+  }
+  .quote-source {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bord-pale); margin-top:8px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background:#fff; border:1px solid var(--beige-dark);
+    border-radius:2px; margin-bottom:10px;
+    transition:box-shadow .2s;
+  }
+  .card:hover { box-shadow:4px 4px 0 var(--beige-dark); }
+  .card-hd {
+    display:flex; align-items:center; gap:14px;
+    padding:15px 20px; cursor:pointer; user-select:none;
+  }
+  .card-icon { font-size:17px; flex-shrink:0; width:26px; text-align:center; }
+  .card-title { font-size:13.5px; font-weight:400; color:var(--ink); flex:1; }
+  .card-badge {
+    font-size:9px; padding:3px 10px; border-radius:20px;
+    font-weight:500; letter-spacing:.5px; flex-shrink:0;
+  }
+  .b-pos    { background:var(--bord-dark); color:var(--beige); }
+  .b-bio    { background:var(--bord); color:var(--beige); }
+  .b-hl     { background:var(--bord-mid); color:var(--beige); }
+  .b-mag    { background:var(--beige-deep); color:var(--ink); }
+  .b-cont   { background:var(--ink); color:var(--beige); }
+  .b-reel   { background:var(--gold-dark); color:var(--beige); }
+  .b-story  { background:var(--bord-light); color:var(--beige); }
+  .b-viral  { background:#2C4A1E; color:#D4EAC4; }
+  .card-arr {
+    font-size:16px; color:var(--bord-pale);
+    transition:transform .22s; flex-shrink:0;
+  }
+  .card.open .card-arr { transform:rotate(180deg); }
+  .card-body {
+    display:none; padding:4px 20px 22px;
+    border-top:1px solid var(--beige-dark);
+  }
+  .card.open .card-body { display:block; }
+
+  /* ── GRID TILES ── */
+  .tiles {
+    display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    margin-bottom:28px;
+  }
+  .tile {
+    background:#fff; border:1px solid var(--beige-dark);
+    border-radius:2px; padding:20px 22px;
+  }
+  .tile-icon { font-size:20px; margin-bottom:10px; }
+  .tile-tag {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:6px;
+  }
+  .tile-val { font-size:13px; color:var(--ink-mid); line-height:1.65; }
+  .tile-val strong { color:var(--bord-dark); font-weight:500; }
+
+  /* ── KV LIST ── */
+  .kv-list { margin:20px 0; }
+  .kv {
+    display:flex; gap:16px; padding:11px 0;
+    border-bottom:1px solid var(--beige);
+  }
+  .kv:last-child { border-bottom:none; }
+  .kv-key {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bord-pale); flex-shrink:0; width:160px; padding-top:2px;
+  }
+  .kv-val { font-size:13px; color:var(--ink-mid); line-height:1.6; }
+
+  /* ── BIO BOX ── */
+  .bio-box {
+    background:var(--beige); border:1px solid var(--beige-dark);
+    border-radius:2px; padding:18px 22px; margin:12px 0 0;
+    font-family:'Cormorant Garamond',serif; font-size:17px;
+    color:var(--bord-dark); line-height:1.85;
+  }
+  .bio-line-muted { color:var(--ink-light); font-size:15px; }
+
+  /* ── STORY SERIES ── */
+  .story-hd {
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bord-pale); margin:20px 0 8px; padding-top:16px;
+    border-top:1px solid var(--beige-dark);
+  }
+  .story-title {
+    font-family:'Cormorant Garamond',serif; font-size:17px;
+    color:var(--bord-dark); margin-bottom:12px; font-style:italic;
+  }
+  .si {
+    display:flex; gap:14px; padding:9px 0;
+    border-bottom:1px solid var(--beige);
+  }
+  .si:last-child { border-bottom:none; }
+  .si-n {
+    font-family:'Cormorant Garamond',serif;
+    font-size:16px; font-weight:600; color:var(--bord-pale);
+    flex-shrink:0; width:24px; margin-top:1px;
+  }
+  .si-t { font-size:12.5px; color:var(--ink-mid); line-height:1.6; }
+  .si-t em { color:var(--bord-dark); font-style:italic; font-family:'Cormorant Garamond',serif; font-size:14px; }
+
+  /* ── HIGHLIGHT TABLE ── */
+  .hl-grid {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+    margin:16px 0 24px;
+  }
+  .hl-item {
+    background:var(--beige); border:1px solid var(--beige-dark);
+    border-radius:2px; padding:14px 16px; text-align:center;
+  }
+  .hl-ico { font-size:22px; margin-bottom:6px; }
+  .hl-name { font-size:12px; font-weight:500; color:var(--ink); }
+  .hl-desc { font-size:11px; color:var(--ink-light); margin-top:2px; }
+
+  /* ── NUMBERED STEPS ── */
+  .steps { margin:16px 0; }
+  .step {
+    display:flex; gap:18px; padding:13px 0;
+    border-bottom:1px solid var(--beige);
+  }
+  .step:last-child { border-bottom:none; }
+  .step-n {
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px; font-weight:300; color:var(--beige-mid);
+    flex-shrink:0; line-height:1;
+  }
+  .step-body { padding-top:3px; }
+  .step-t { font-size:13px; color:var(--ink); font-weight:500; margin-bottom:3px; }
+  .step-d { font-size:12px; color:var(--ink-light); line-height:1.6; font-style:italic; }
+
+  /* ── WEEK TABLE ── */
+  .week-table { width:100%; border-collapse:collapse; margin:16px 0; }
+  .week-table th {
+    font-size:9px; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--bord-pale); padding:10px 14px; text-align:left;
+    background:var(--beige); border-bottom:1px solid var(--beige-mid);
+  }
+  .week-table td {
+    font-size:12.5px; padding:11px 14px; border-bottom:1px solid var(--beige);
+    color:var(--ink-mid); vertical-align:top;
+  }
+  .week-table tr:last-child td { border-bottom:none; }
+  .week-table td:first-child { color:var(--bord-pale); font-weight:500; font-size:11px; white-space:nowrap; }
+  .week-table tr:nth-child(even) td { background:rgba(245,237,224,.4); }
+
+  /* ── TAGS ── */
+  .tag-row { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
+  .tag {
+    font-size:11px; padding:5px 13px; border-radius:20px;
+    background:var(--beige); border:1px solid var(--beige-mid);
+    color:var(--ink-mid);
+  }
+
+  /* ── REEL CARD ── */
+  .reel {
+    display:flex; gap:0; margin-bottom:10px;
+    border:1px solid var(--beige-dark); border-radius:2px;
+    background:#fff; overflow:hidden; transition:box-shadow .2s;
+  }
+  .reel:hover { box-shadow:4px 4px 0 var(--beige-dark); }
+  .reel-body { flex:1; padding:14px 18px; }
+  .reel-hook { font-size:13.5px; font-weight:400; color:var(--ink); line-height:1.5; margin-bottom:5px; }
+  .reel-fmt { font-size:11.5px; color:var(--ink-light); line-height:1.55; font-style:italic; }
+  .reel-side {
+    width:88px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    background:var(--beige); border-left:1px solid var(--beige-dark);
+    font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold-dark); font-weight:500; text-align:center; padding:8px;
+  }
+
+  /* ── CAT DIVIDER ── */
+  .cat-div {
+    display:flex; align-items:center; gap:14px;
+    margin:28px 0 16px;
+  }
+  .cat-div-label {
+    font-family:'Cormorant Garamond',serif;
+    font-size:20px; color:var(--bord-dark); font-style:italic; flex-shrink:0;
+  }
+  .cat-div-line { flex:1; height:1px; background:var(--beige-mid); }
+
+  /* ── FORMULA BOX ── */
+  .formula {
+    background:var(--beige); border:1px solid var(--beige-dark);
+    border-radius:2px; padding:22px 24px; margin-top:28px;
+  }
+  .formula-label {
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bord-pale); margin-bottom:8px;
+  }
+  .formula-text {
+    font-family:'Cormorant Garamond',serif;
+    font-size:17px; color:var(--bord-dark); line-height:1.7;
+  }
+
+  /* ── ACT LABEL ── */
+  .act-label {
+    display:inline-block;
+    font-size:9px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bord-pale); background:var(--beige);
+    border:1px solid var(--beige-mid);
+    padding:4px 12px; border-radius:20px; margin-bottom:18px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align:center; padding:24px;
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--beige-mid); border-top:1px solid var(--beige-dark);
+  }
+
+  @media (max-width:700px) {
+    .hd { padding:40px 24px 36px; }
+    .hd h1 { font-size:36px; }
+    .sticky { padding:0 16px; }
+    .main { padding:32px 24px 80px; }
+    .blk-num { font-size:44px; }
+    .tiles { grid-template-columns:1fr; }
+    .hl-grid { grid-template-columns:repeat(2,1fr); }
+    .reel-side { width:64px; font-size:8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<div class="hd">
+  <div class="hd-eyebrow">Упаковка блога · Instagram · 2024</div>
+  <h1>Мария<br><em>Шумилова</em></h1>
+  <div class="hd-rule"></div>
+  <div class="hd-sub">Позиционирование · Шапка · Хайлайтсы · Лид-магнит · Рилсы</div>
+  <div class="hd-meta">
+    <div class="hd-pill">Концепция <span>«Тебе можно всё»</span></div>
+    <div class="hd-pill">Ниша <span>Мышление для женщин</span></div>
+    <div class="hd-pill">6 блоков</div>
+  </div>
+</div>
+
+<!-- ══════════════ TABS ══════════════ -->
+<div class="sticky">
+  <div class="tab active" data-tab="pos">Позиционирование</div>
+  <div class="tab" data-tab="bio">Шапка профиля</div>
+  <div class="tab" data-tab="hl">Хайлайтсы</div>
+  <div class="tab" data-tab="mag">Лид-магнит</div>
+  <div class="tab" data-tab="cont">Контент</div>
+  <div class="tab" data-tab="reels">Рилсы</div>
+</div>
+
+<div class="main">
+
+<!-- ══════ TAB 1: ПОЗИЦИОНИРОВАНИЕ ══════ -->
+<div class="section visible" id="sec-pos">
+
+  <div class="blk-hd">
+    <div class="blk-num">01</div>
+    <div class="blk-info">
+      <div class="blk-tag">Фундамент</div>
+      <div class="blk-title">Позиционирование</div>
+      <div class="blk-sub">Концепция, аудитория и смысловое ядро блога</div>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p>Мария — женщина, которая взломала код собственной жизни. Прошла путь от достигаторства ради чужого одобрения до глубокой внутренней опоры. Теперь делится мышлением, которое меняет всё сразу.</p>
+    <div class="quote-source">Ключевая идея</div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-icon">🎯</div>
+      <div class="tile-tag">Ниша</div>
+      <div class="tile-val">Трансформация мышления для женщин. Не коуч, не психолог — <strong>женщина с опытом и инструментами</strong></div>
+    </div>
+    <div class="tile">
+      <div class="tile-icon">🎙</div>
+      <div class="tile-tag">Тон блога</div>
+      <div class="tile-val">Тёплый, прямой, с глубиной. <strong>Как подруга, которая уже прошла этот путь</strong> — без менторства</div>
+    </div>
+    <div class="tile">
+      <div class="tile-icon">🔑</div>
+      <div class="tile-tag">Главный офер</div>
+      <div class="tile-val"><strong>«Тебе можно всё»</strong> — работа с мышлением, которая меняет все сферы жизни одновременно</div>
+    </div>
+    <div class="tile">
+      <div class="tile-icon">👤</div>
+      <div class="tile-tag">Аудитория</div>
+      <div class="tile-val">Женщины 25–40. В застое или кризисе. Умные, но <strong>застрявшие в чужих программах</strong></div>
+    </div>
+  </div>
+
+  <div class="card open" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🧭</div>
+      <div class="card-title">Ключевые параметры блога</div>
+      <span class="card-badge b-pos">Ядро</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="kv-list">
+        <div class="kv">
+          <div class="kv-key">Ниша</div>
+          <div class="kv-val">Трансформация мышления для женщин</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Тон</div>
+          <div class="kv-val">Тёплый, прямой, с глубиной. Без менторства — как подруга, которая уже прошла этот путь</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Главный офер</div>
+          <div class="kv-val">«Тебе можно всё» — работа с мышлением, которая меняет все сферы жизни</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Аудитория</div>
+          <div class="kv-val">Женщины 25–40 лет. В застое или кризисе. Умные, но застрявшие в чужих программах. Хотят уверенности, денег, любви — но не знают с чего начать</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Уникальность</div>
+          <div class="kv-val">Сама прошла несколько трансформаций. Знает путь изнутри — от Mercedes и потери до внутренней опоры</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Визуальный образ</div>
+          <div class="kv-val">Расслабленная сила. Женщина, которая знает. Тёплая эстетика, без бизнес-агрессии</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">💡</div>
+      <div class="card-title">Чего хочет Мария для своего образа</div>
+      <span class="card-badge b-pos">Образ</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="quote" style="margin-top:16px;">
+        <p>Я хочу быть расслабленной девчушкой, которая сидит на Мальдивах и объясняет другим женщинам, как жить.</p>
+        <div class="quote-source">Мария Шумилова · из распаковки</div>
+      </div>
+      <div class="kv-list">
+        <div class="kv">
+          <div class="kv-key">Как её видят</div>
+          <div class="kv-val">Умная, мудрая, успешная женщина с глубиной. Женщина, которая познала коды жизни</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Что они думают</div>
+          <div class="kv-val">«Какая она крутая. Такие вещи говорит. Мне никто не мог их донести раньше»</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Чего НЕ хочет</div>
+          <div class="kv-val">Слово «бизнес» в лоб. Образ жёсткой бизнес-леди. Надрыв и достигаторство</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ TAB 2: ШАПКА ПРОФИЛЯ ══════ -->
+<div class="section" id="sec-bio">
+
+  <div class="blk-hd">
+    <div class="blk-num">02</div>
+    <div class="blk-info">
+      <div class="blk-tag">Instagram</div>
+      <div class="blk-title">Шапка профиля</div>
+      <div class="blk-sub">Три варианта — выбери один. Рекомендуется А или В.</div>
+    </div>
+  </div>
+
+  <div class="act-label">Выбери вариант, который резонирует</div>
+
+  <div class="card open" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">✦</div>
+      <div class="card-title">Вариант А — лаконичный, сильный</div>
+      <span class="card-badge b-bio">Рекомендован</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="bio-box">
+        Мария Шумилова<br>
+        <span class="bio-line-muted">мышление → деньги, отношения, свобода</span><br>
+        взломала код. делюсь с тобой 🔑<br>
+        <span class="bio-line-muted">self-made | Крым → мир</span><br>
+        <span class="bio-line-muted">↓ бесплатный гайд «5 убеждений, которые держат тебя»</span>
+      </div>
+      <div class="kv-list" style="margin-top:16px;">
+        <div class="kv">
+          <div class="kv-key">Почему работает</div>
+          <div class="kv-val">Чёткая трансформация в одной строке. «Взломала код» — интригует и передаёт уникальность без объяснений</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">💎</div>
+      <div class="card-title">Вариант Б — через результат</div>
+      <span class="card-badge b-bio">Вариант</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="bio-box">
+        Мария Шумилова<br>
+        <span class="bio-line-muted">помогаю женщинам перестать заслуживать и начать получать</span><br>
+        💰 деньги &nbsp;🤍 отношения &nbsp;🧠 мышление<br>
+        <span class="bio-line-muted">от нуля до Mercedes — и обратно к себе</span><br>
+        <span class="bio-line-muted">↓ тест «Какая программа тебя блокирует?»</span>
+      </div>
+      <div class="kv-list" style="margin-top:16px;">
+        <div class="kv">
+          <div class="kv-key">Почему работает</div>
+          <div class="kv-val">Сильная история в одной строке — Mercedes даёт доверие и интригу. Боль аудитории «заслуживать» попадает точно</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🌸</div>
+      <div class="card-title">Вариант В — женственный, притягивающий</div>
+      <span class="card-badge b-bio">Рекомендован</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="bio-box">
+        Мария Шумилова<br>
+        <span class="bio-line-muted">женщина, которая поняла эту жизнь</span><br>
+        учу: брать своё · не терпеть · жить в кайф<br>
+        <span class="bio-line-muted">бизнес по-женски ✦ мышление ✦ мужчины</span><br>
+        <span class="bio-line-muted">↓ забери бесплатный урок</span>
+      </div>
+      <div class="kv-list" style="margin-top:16px;">
+        <div class="kv">
+          <div class="kv-key">Почему работает</div>
+          <div class="kv-val">«Женщина, которая поняла эту жизнь» — максимально точно отражает образ и сразу создаёт желание читать дальше</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ TAB 3: ХАЙЛАЙТСЫ ══════ -->
+<div class="section" id="sec-hl">
+
+  <div class="blk-hd">
+    <div class="blk-num">03</div>
+    <div class="blk-info">
+      <div class="blk-tag">Instagram</div>
+      <div class="blk-title">Хайлайтсы</div>
+      <div class="blk-sub">Обложки, названия и готовые сторителлинги</div>
+    </div>
+  </div>
+
+  <div class="act-label">8 хайлайтов · 4 серии сторителлингов</div>
+
+  <div class="card open" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">📂</div>
+      <div class="card-title">Названия и иконки хайлайтов</div>
+      <span class="card-badge b-hl">Обложки</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="hl-grid">
+        <div class="hl-item"><div class="hl-ico">🪞</div><div class="hl-name">Обо мне</div><div class="hl-desc">кто я, путь</div></div>
+        <div class="hl-item"><div class="hl-ico">🧠</div><div class="hl-name">Мышление</div><div class="hl-desc">инсайты, разборы</div></div>
+        <div class="hl-item"><div class="hl-ico">💰</div><div class="hl-name">Деньги</div><div class="hl-desc">история, опыт</div></div>
+        <div class="hl-item"><div class="hl-ico">🤍</div><div class="hl-name">Мужчины</div><div class="hl-desc">женственность</div></div>
+        <div class="hl-item"><div class="hl-ico">🎯</div><div class="hl-name">Методы</div><div class="hl-desc">инструменты</div></div>
+        <div class="hl-item"><div class="hl-ico">✨</div><div class="hl-name">Результаты</div><div class="hl-desc">отзывы учениц</div></div>
+        <div class="hl-item"><div class="hl-ico">🔑</div><div class="hl-name">Бесплатно</div><div class="hl-desc">лид-магнит</div></div>
+        <div class="hl-item"><div class="hl-ico">📩</div><div class="hl-name">Работа со мной</div><div class="hl-desc">офер</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🪞</div>
+      <div class="card-title">Обо мне — 5 сторис</div>
+      <span class="card-badge b-story">Серия</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="story-hd">«Я не с этой планеты» — детство и первый бунт</div>
+      <div class="story-title">Из Барнаула — к себе</div>
+      <div class="si"><div class="si-n">1</div><div class="si-t">Фото из детства. <em>«Барнаул. Большой дом. Любовь через оценки. Я пятёрки носила — и думала: почему внутри пусто?»</em></div></div>
+      <div class="si"><div class="si-n">2</div><div class="si-t"><em>«Я рано поняла: никто тебе не скажет, что ты уже хороша. Это нужно открыть самой.»</em></div></div>
+      <div class="si"><div class="si-n">3</div><div class="si-t"><em>«Крым. Новый город. Первая команда. Mercedes, который я забрала, потому что не знала, что нельзя.»</em></div></div>
+      <div class="si"><div class="si-n">4</div><div class="si-t"><em>«Потом я его потеряла. И это была лучшая история в моей жизни — потому что я нашла себя.»</em></div></div>
+      <div class="si"><div class="si-n">5</div><div class="si-t"><em>«Сегодня я не доказываю. Я просто есть. И хочу, чтобы ты тоже это почувствовала.»</em></div></div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">💰</div>
+      <div class="card-title">Деньги — 4 сторис</div>
+      <span class="card-badge b-story">Серия</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="story-hd">«От Mercedes до нуля — и как я вышла другой»</div>
+      <div class="story-title">Крах эго как точка роста</div>
+      <div class="si"><div class="si-n">1</div><div class="si-t"><em>«Я забирала автомобиль под камеры. Все смотрели. Мама смеялась перед этим. Вот где я была тогда.»</em></div></div>
+      <div class="si"><div class="si-n">2</div><div class="si-t"><em>«Через год я его продала. Мне было стыдно говорить об этом долго. Это был крах моего эго.»</em></div></div>
+      <div class="si"><div class="si-n">3</div><div class="si-t"><em>«Но именно тогда я поняла: моя ценность не в счёте. И это изменило всё — как я зарабатываю, как трачу, как прошу.»</em></div></div>
+      <div class="si"><div class="si-n">4</div><div class="si-t"><em>«Сейчас мой самый большой финансовый результат сделан через состояние, а не через надрыв. Мышление решает.»</em></div></div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🤍</div>
+      <div class="card-title">Мужчины — 4 сторис</div>
+      <span class="card-badge b-story">Серия</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="story-hd">«Как я перестала быть удобной и начала получать»</div>
+      <div class="story-title">От «я сама» — к женской силе</div>
+      <div class="si"><div class="si-n">1</div><div class="si-t"><em>«Раньше я не умела принимать. Подарок — неловко. Помощь — 'я сама'. Это не сила. Это блок.»</em></div></div>
+      <div class="si"><div class="si-n">2</div><div class="si-t"><em>«Я думала: если я в бизнесе — меня не полюбят. Буквально такая установка жила во мне три года.»</em></div></div>
+      <div class="si"><div class="si-n">3</div><div class="si-t"><em>«Потом я поняла: женственность — это не слабость. Это когда ты знаешь, чего хочешь, и позволяешь этому прийти.»</em></div></div>
+      <div class="si"><div class="si-n">4</div><div class="si-t"><em>«Теперь мужчины помогают мне в задачах, которые я раньше тащила сама. Не потому что я манипулирую — а потому что знаю свою ценность.»</em></div></div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Мышление — 3 сторис</div>
+      <span class="card-badge b-story">Серия</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="story-hd">«Один сдвиг в голове — и меняется всё»</div>
+      <div class="story-title">Почему мышление важнее действий</div>
+      <div class="si"><div class="si-n">1</div><div class="si-t"><em>«Я заметила: один и тот же сценарий повторялся у меня в деньгах, в отношениях, с мамой. Это не совпадение. Это программа.»</em></div></div>
+      <div class="si"><div class="si-n">2</div><div class="si-t"><em>«Когда меняешь мышление — не нужно 'работать над собой' в надрыве. Просто убираешь то, что тебе не твоё.»</em></div></div>
+      <div class="si"><div class="si-n">3</div><div class="si-t"><em>«Я прошла десятки тренингов. И выжала из них главное: твоё состояние — это причина. Всё остальное — следствие.»</em></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ TAB 4: ЛИД-МАГНИТ ══════ -->
+<div class="section" id="sec-mag">
+
+  <div class="blk-hd">
+    <div class="blk-num">04</div>
+    <div class="blk-info">
+      <div class="blk-tag">Лид-магнит</div>
+      <div class="blk-title">Экспертная тема</div>
+      <div class="blk-sub">PDF + голосовое в Telegram. Читается за 10 минут — и человек узнаёт себя</div>
+    </div>
+  </div>
+
+  <div class="act-label">PDF-разбор · 5–7 страниц · Бесплатно</div>
+
+  <div class="quote">
+    <p>5 мыслей, которые держат тебя на старом месте</p>
+    <div class="quote-source">Название лид-магнита</div>
+  </div>
+
+  <div class="card open" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">📄</div>
+      <div class="card-title">Структура PDF — 5 блоков</div>
+      <span class="card-badge b-mag">Контент</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div class="step-body">
+            <div class="step-t">«Я должна заслужить»</div>
+            <div class="step-d">Почему любовь к себе не нужно зарабатывать. Мария рассказывает про свой паттерн с мамой и пятёрками</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div class="step-body">
+            <div class="step-t">«Если я в бизнесе — меня не полюбят»</div>
+            <div class="step-d">Как успех и женственность стали у неё врагами. И почему это ложь</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div class="step-body">
+            <div class="step-t">«Деньги даются тяжёлым трудом»</div>
+            <div class="step-d">Про установку из детства и первый раз, когда она получила деньги легко</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">04</div>
+          <div class="step-body">
+            <div class="step-t">«Я сама»</div>
+            <div class="step-d">Про невидимую стену между женщиной и благами. Почему принимать — это навык, а не слабость</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">05</div>
+          <div class="step-body">
+            <div class="step-t">«Страшно проявляться»</div>
+            <div class="step-d">Про хейт, смех близких и то, что за этим страхом на самом деле стоит</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">Механика и CTA</div>
+      <span class="card-badge b-mag">Конверсия</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="kv-list">
+        <div class="kv">
+          <div class="kv-key">Формат</div>
+          <div class="kv-val">PDF 5–7 страниц + голосовое сопровождение в Telegram-боте или канале</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Механика</div>
+          <div class="kv-val">Человек читает за 10 минут, узнаёт себя в одном из 5 пунктов — и хочет продолжения</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">CTA в конце</div>
+          <div class="kv-val">«Узнала себя хотя бы в одном пункте? Тогда тебе сюда →» — ссылка на первый бесплатный эфир или платный продукт</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Почему работает</div>
+          <div class="kv-val">Каждый из 5 пунктов — прямо из личной истории Марии. Это не абстрактный контент, а живой опыт, с которым аудитория идентифицирует себя</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ TAB 5: КОНТЕНТ ══════ -->
+<div class="section" id="sec-cont">
+
+  <div class="blk-hd">
+    <div class="blk-num">05</div>
+    <div class="blk-info">
+      <div class="blk-tag">Стратегия</div>
+      <div class="blk-title">Контентная стратегия</div>
+      <div class="blk-sub">Рубрики на неделю и темы-магниты для постов</div>
+    </div>
+  </div>
+
+  <div class="card open" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">📅</div>
+      <div class="card-title">Контентный микс на неделю</div>
+      <span class="card-badge b-cont">Система</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <table class="week-table">
+        <thead>
+          <tr><th>День</th><th>Рубрика</th><th>Пример темы</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Понедельник</td><td>Экспертность</td><td>Пост-разбор: «Почему у тебя нет денег — это не про деньги»</td></tr>
+          <tr><td>Вторник</td><td>Личная история</td><td>Сторис-серия из жизни. Честно, без глянца</td></tr>
+          <tr><td>Среда</td><td>Польза</td><td>Мини-практика или вопрос для рефлексии</td></tr>
+          <tr><td>Четверг</td><td>Провокация</td><td>«Горячая» мысль, которая делит аудиторию на своих / чужих</td></tr>
+          <tr><td>Пятница</td><td>Результат</td><td>Отзыв ученицы или личный кейс с цифрами</td></tr>
+          <tr><td>Суббота</td><td>Женское</td><td>Тема про мужчин, тело, энергию. Мягко, притягивающе</td></tr>
+          <tr><td>Воскресенье</td><td>Атмосфера</td><td>Жизнь, эстетика, состояние. Кто эта женщина за кадром</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-hd">
+      <div class="card-icon">🧲</div>
+      <div class="card-title">Темы-магниты для постов</div>
+      <span class="card-badge b-cont">Охваты</span>
+      <div class="card-arr">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="tag-row">
+        <div class="tag">«Почему умные женщины сидят без денег»</div>
+        <div class="tag">«Как я перестала доказывать маме»</div>
+        <div class="tag">«3 признака, что ты живёшь не своей жизнью»</div>
+        <div class="tag">«Чего хотят мужчины на самом деле»</div>
+        <div class="tag">«Я потеряла Mercedes — и это лучшее, что со мной случилось»</div>
+        <div class="tag">«Разница между женщиной-достигатором и женщиной-получателем»</div>
+        <div class="tag">«Как я перестала говорить 'я сама'»</div>
+        <div class="tag">«Тебе можно всё — но ты пока не веришь»</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ TAB 6: РИЛСЫ ══════ -->
+<div class="section" id="sec-reels">
+
+  <div class="blk-hd">
+    <div class="blk-num">06</div>
+    <div class="blk-info">
+      <div class="blk-tag">Видеоконтент</div>
+      <div class="blk-title">Темы для рилсов</div>
+      <div class="blk-sub">22 темы · 5 категорий · каждая ведёт в актуальное</div>
+    </div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-label">Формула вирусного рилса</div>
+    <div class="formula-text">Провокационный хук (первые 2 сек) → личный пример или конкретика → один главный сдвиг в мышлении → CTA в актуальное. Без длинных вступлений. Без «сегодня я расскажу вам о...». Сразу в суть — с первого слова.</div>
+  </div>
+
+  <div style="margin-top:32px;">
+
+  <div class="cat-div">
+    <div class="cat-div-label">🔥 Вирусные / провокационные</div>
+    <div class="cat-div-line"></div>
+  </div>
+
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Женщина, которая говорит 'я сама' — не сильная. Она просто напуганная»</div><div class="reel-fmt">Говорящая голова. 30–40 сек. Один тезис — раскрываешь почему. → Актуальное «Мужчины»</div></div><div class="reel-side">Вирус</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Хватит работать над собой. Начни убирать то, что не твоё»</div><div class="reel-fmt">Текст на экране + закадровый голос. Разрушает привычную формулу саморазвития. → Актуальное «Мышление»</div></div><div class="reel-side">Вирус</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Ты не ленивая. У тебя просто чужая цель»</div><div class="reel-fmt">Быстрый монтаж. Текст крупно. Хук в первые 2 секунды. → Актуальное «Мышление»</div></div><div class="reel-side">Вирус</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Почему умные женщины живут с нелюбимыми мужчинами» — отвечаю за 60 сек</div><div class="reel-fmt">Говорящая голова. Быстро, по делу, без воды. → Актуальное «Мужчины»</div></div><div class="reel-side">Мужчины</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«3 фразы, которые ты говоришь себе — и именно они держат тебя без денег»</div><div class="reel-fmt">Субтитры крупно. Каждая фраза — отдельный кадр. Люди узнают себя и сохраняют. → «Деньги»</div></div><div class="reel-side">Деньги</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Мужчина не дарит подарки? Покажу почему — и это не про него»</div><div class="reel-fmt">Провокация в заголовке. Раскрываешь через внутреннее состояние женщины. → «Мужчины»</div></div><div class="reel-side">Мужчины</div></div>
+
+  <div class="cat-div">
+    <div class="cat-div-label">📖 Личная история</div>
+    <div class="cat-div-line"></div>
+  </div>
+
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Я забрала Mercedes — и через год продала его. Вот что это изменило»</div><div class="reel-fmt">Монтаж с фото/видео того периода. Честно, без прикрас. Люди любят истории падения+роста. → «Обо мне»</div></div><div class="reel-side">История</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Мама смеялась над моей целью. Я не ответила. Я просто сделала»</div><div class="reel-fmt">Эмоциональный, тихий голос. Минималистичная картинка. Триггерит тех, кого не поддерживали. → «Обо мне»</div></div><div class="reel-side">История</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«6 лет я не общалась с близкими — и это было лучшим решением в моей жизни»</div><div class="reel-fmt">Спорная тема → высокая вовлечённость. Объясняешь без осуждения семьи. → «Обо мне»</div></div><div class="reel-side">История</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Я переехала в Крым за мужчиной. Он изменил. Я сделала из этого карьеру»</div><div class="reel-fmt">Сильная история трансформации боли → результата. Максимально личное. → «Обо мне»</div></div><div class="reel-side">История</div></div>
+
+  <div class="cat-div">
+    <div class="cat-div-label">🧠 Мышление</div>
+    <div class="cat-div-line"></div>
+  </div>
+
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Один и тот же сценарий повторяется в деньгах, отношениях и здоровье? Это не совпадение»</div><div class="reel-fmt">Объяснение через паттерны. Простым языком, без терминов. → «Мышление»</div></div><div class="reel-side">Мышление</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Почему аффирмации не работают — и что делать вместо них»</div><div class="reel-fmt">Разрушает популярный миф. Даёт альтернативу. Сохраняют и пересылают. → «Методы»</div></div><div class="reel-side">Мышление</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Твоё состояние утром решает, сколько ты заработаешь сегодня. Объясню как»</div><div class="reel-fmt">Конкретный механизм. Короткая практика в конце. → «Методы»</div></div><div class="reel-side">Мышление</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Страх — это не сигнал 'стоп'. Это сигнал 'ты на правильном пути'»</div><div class="reel-fmt">Переосмысление страха. Вдохновляет и сохраняется. → «Мышление»</div></div><div class="reel-side">Мышление</div></div>
+
+  <div class="cat-div">
+    <div class="cat-div-label">💰 Деньги</div>
+    <div class="cat-div-line"></div>
+  </div>
+
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Как я зарабатывала через мужчин — и это не то, что ты думаешь»</div><div class="reel-fmt">Интригующий хук. Раскрываешь через женскую энергию и умение принимать. → «Деньги»</div></div><div class="reel-side">Деньги</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Я выросла с установкой 'деньги даются тяжело'. Вот как я из неё вышла — пошагово»</div><div class="reel-fmt">Личная история + конкретный инструмент. Сохраняют и применяют. → «Деньги»</div></div><div class="reel-side">Деньги</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Почему ты выставляешь цену и сразу хочешь её снизить» — разбираю за 45 секунд</div><div class="reel-fmt">Точечная боль аудитории. Быстро, по делу. → «Деньги»</div></div><div class="reel-side">Деньги</div></div>
+
+  <div class="cat-div">
+    <div class="cat-div-label">✨ Состояние и женственность</div>
+    <div class="cat-div-line"></div>
+  </div>
+
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Утренний ритуал, который поставил мне внутреннюю опору. Не медитация»</div><div class="reel-fmt">Lifestyle + практика. Эстетичная картинка. Тихая энергия. → «Методы»</div></div><div class="reel-side">Состояние</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Женщина, которая знает себе цену — как она выглядит, говорит, ведёт себя»</div><div class="reel-fmt">Поведенческие маркеры. Люди узнают себя или хотят быть такой. → «Мышление»</div></div><div class="reel-side">Состояние</div></div>
+  <div class="reel"><div class="reel-body"><div class="reel-hook">«Я перестала 'работать над собой' — и стала счастливее. Вот парадокс»</div><div class="reel-fmt">Контринтуитивный тезис. Разница между надрывом и принятием. → «Мышление»</div></div><div class="reel-side">Состояние</div></div>
+
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">Упаковка блога · Мария Шумилова · «Тебе можно всё» · 2024</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+      tab.classList.add('active');
+      document.getElementById('sec-' + tab.dataset.tab).classList.add('visible');
+    });
+  });
+
+  function toggleCard(card) {
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
